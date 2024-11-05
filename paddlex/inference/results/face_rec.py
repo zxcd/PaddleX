@@ -12,19 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .base import BaseResult
-from .clas import TopkResult, MLClassResult
-from .text_det import TextDetResult
-from .text_rec import TextRecResult
-from .table_rec import TableRecResult, StructureTableResult, TableResult
-from .seal_rec import SealOCRResult
-from .ocr import OCRResult
-from .det import DetResult
-from .seg import SegResult
-from .formula_rec import FormulaRecResult, FormulaResult
-from .instance_seg import InstanceSegResult
-from .ts import TSFcResult, TSAdResult, TSClsResult
-from .warp import DocTrResult
-from .chat_ocr import *
-from .shitu import ShiTuResult
-from .face_rec import FaceRecResult
+import numpy as np
+from .base import CVResult
+from .det import draw_box
+
+
+class FaceRecResult(CVResult):
+
+    def _to_img(self):
+        """apply"""
+        image = self._img_reader.read(self["input_path"])
+        boxes = [
+            {
+                "coordinate": box["coordinate"],
+                "label": box["labels"][0] if box["labels"] is not None else "Unknown",
+                "score": box["rec_scores"][0] if box["rec_scores"] is not None else 0,
+            }
+            for box in self["boxes"]
+        ]
+        image = draw_box(image, boxes)
+        return image
