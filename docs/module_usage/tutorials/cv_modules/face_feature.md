@@ -89,7 +89,19 @@ python main.py -c paddlex/configs/face_recognition/MobileFaceNet.yaml \
     ],
     "val_label_file": "../../dataset/face_rec_examples/val/pair_label.txt",
     "val_num_classes": 2,
-    "val_samples": 500
+    "val_samples": 500,
+    "val_sample_paths": [
+      "check_dataset/demo_img/Don_Carcieri_0001.jpg",
+      "check_dataset/demo_img/Eric_Fehr_0001.jpg",
+      "check_dataset/demo_img/Harry_Kalas_0001.jpg",
+      "check_dataset/demo_img/Francis_Ford_Coppola_0001.jpg",
+      "check_dataset/demo_img/Amer_al-Saadi_0001.jpg",
+      "check_dataset/demo_img/Sergei_Ivanov_0001.jpg",
+      "check_dataset/demo_img/Erin_Runnion_0003.jpg",
+      "check_dataset/demo_img/Bill_Stapleton_0001.jpg",
+      "check_dataset/demo_img/Daniel_Bruehl_0001.jpg",
+      "check_dataset/demo_img/Clare_Short_0004.jpg"
+    ]
   },
   "analysis": {},
   "dataset_path": "./dataset/face_rec_examples",
