@@ -23,7 +23,6 @@ from .runner import DetRunner
 
 REPO_ROOT_PATH = os.environ.get("PADDLE_PDX_PADDLEDETECTION_PATH")
 PDX_CONFIG_DIR = osp.abspath(osp.join(osp.dirname(__file__), "..", "configs"))
-HPI_CONFIG_DIR = Path(__file__).parent.parent.parent.parent / "utils" / "hpi_configs"
 
 register_suite_info(
     {
@@ -46,7 +45,6 @@ register_model_info(
         ),
         "supported_apis": ["train", "evaluate", "predict", "export", "compression"],
         "supported_dataset_types": ["COCODetDataset"],
-        "hpi_config_path": HPI_CONFIG_DIR / "PicoDet-S.yaml",
     }
 )
 
@@ -60,7 +58,6 @@ register_model_info(
         ),
         "supported_apis": ["train", "evaluate", "predict", "export", "compression"],
         "supported_dataset_types": ["COCODetDataset"],
-        "hpi_config_path": HPI_CONFIG_DIR / "PicoDet-L.yaml",
     }
 )
 
@@ -79,7 +76,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["O1", "O2"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "PP-YOLOE_plus-S.yaml",
     }
 )
 
@@ -98,7 +94,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["O1", "O2"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "PP-YOLOE_plus-M.yaml",
     }
 )
 
@@ -114,7 +109,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["O1", "O2"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "PP-YOLOE_plus-L.yaml",
     }
 )
 
@@ -130,7 +124,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["O1", "O2"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "PP-YOLOE_plus-X.yaml",
     }
 )
 
@@ -146,7 +139,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "RT-DETR-L.yaml",
     }
 )
 
@@ -162,7 +154,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "RT-DETR-H.yaml",
     }
 )
 
@@ -178,7 +169,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "RT-DETR-X.yaml",
     }
 )
 
@@ -194,7 +184,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "RT-DETR-R18.yaml",
     }
 )
 
@@ -210,7 +199,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "RT-DETR-R50.yaml",
     }
 )
 
@@ -226,7 +214,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "PicoDet_layout_1x.yaml",
     }
 )
 
@@ -242,7 +229,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOv3-DarkNet53.yaml",
     }
 )
 
@@ -258,7 +244,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOv3-MobileNetV3.yaml",
     }
 )
 
@@ -274,7 +259,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOv3-ResNet50_vd_DCN.yaml",
     }
 )
 
@@ -290,7 +274,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOX-L.yaml",
     }
 )
 
@@ -306,7 +289,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOX-M.yaml",
     }
 )
 
@@ -322,7 +304,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOX-N.yaml",
     }
 )
 
@@ -338,7 +319,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOX-S.yaml",
     }
 )
 
@@ -354,7 +334,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOX-T.yaml",
     }
 )
 
@@ -370,7 +349,6 @@ register_model_info(
             "dy2st": False,
             "amp": ["OFF"],
         },
-        "hpi_config_path": HPI_CONFIG_DIR / "YOLOX-X.yaml",
     }
 )
 
