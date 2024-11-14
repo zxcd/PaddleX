@@ -16,7 +16,7 @@ comments: true
 <table>
 <thead>
 <tr>
-<th>模型名称</th>
+<th>模型</th><th>模型下载链接</th>
 <th>mAP（%）</th>
 <th>GPU推理耗时（ms）</th>
 <th>CPU推理耗时（ms）</th>
@@ -25,21 +25,21 @@ comments: true
 </thead>
 <tbody>
 <tr>
-<td>PP-YOLOE_plus_SOD-S</td>
+<td>PP-YOLOE_plus_SOD-S</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PP-YOLOE_plus_SOD-S_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-S_pretrained.pdparams">训练模型</a></td>
 <td>25.1</td>
 <td>65.4608</td>
 <td>324.37</td>
 <td>77.3 M</td>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-L</td>
+<td>PP-YOLOE_plus_SOD-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PP-YOLOE_plus_SOD-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-L_pretrained.pdparams">训练模型</a></td>
 <td>31.9</td>
 <td>57.1448</td>
 <td>1006.98</td>
 <td>325.0 M</td>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-largesize-L</td>
+<td>PP-YOLOE_plus_SOD-largesize-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PP-YOLOE_plus_SOD-largesize-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-largesize-L_pretrained.pdparams">训练模型</a></td>
 <td>42.7</td>
 <td>458.521</td>
 <td>11172.7</td>
@@ -194,12 +194,12 @@ for res in output:
 <tr>
 <td>print</td>
 <td>打印结果到终端</td>
-<td><code>- format_json</code>：bool类型，是否对输出内容进行使用json缩进格式化，默认为True；<br><code>- indent</code>：int类型，json格式化设置，仅当format_json为True时有效，默认为4；<br><code>- ensure_ascii</code>：bool类型，json格式化设置，仅当format_json为True时有效，默认为False；</td>
+<td><code>- format_json</code>：bool类型，是否对输出内容进行使用json缩进格式化，默认为True；<br/><code>- indent</code>：int类型，json格式化设置，仅当format_json为True时有效，默认为4；<br/><code>- ensure_ascii</code>：bool类型，json格式化设置，仅当format_json为True时有效，默认为False；</td>
 </tr>
 <tr>
 <td>save_to_json</td>
 <td>将结果保存为json格式的文件</td>
-<td><code>- save_path</code>：str类型，保存的文件路径，当为目录时，保存文件命名与输入文件类型命名一致；<br><code>- indent</code>：int类型，json格式化设置，默认为4；<br><code>- ensure_ascii</code>：bool类型，json格式化设置，默认为False；</td>
+<td><code>- save_path</code>：str类型，保存的文件路径，当为目录时，保存文件命名与输入文件类型命名一致；<br/><code>- indent</code>：int类型，json格式化设置，默认为4；<br/><code>- ensure_ascii</code>：bool类型，json格式化设置，默认为False；</td>
 </tr>
 <tr>
 <td>save_to_img</td>
