@@ -16,7 +16,7 @@ comments: true
 <table>
 <thead>
 <tr>
-<th>模型名称</th>
+<th>模型</th><th>模型下载链接</th>
 <th>mse</th>
 <th>mae</th>
 <th>模型存储大小（M)</th>
@@ -24,43 +24,43 @@ comments: true
 </thead>
 <tbody>
 <tr>
-<td>DLinear</td>
+<td>DLinear</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/DLinear_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/DLinear_pretrained.pdparams">训练模型</a></td>
 <td>0.382</td>
 <td>0.394</td>
 <td>72K</td>
 </tr>
 <tr>
-<td>NLinear</td>
+<td>NLinear</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/NLinear_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/NLinear_pretrained.pdparams">训练模型</a></td>
 <td>0.386</td>
 <td>0.392</td>
 <td>40K</td>
 </tr>
 <tr>
-<td>Nonstationary</td>
+<td>Nonstationary</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/Nonstationary_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/Nonstationary_pretrained.pdparams">训练模型</a></td>
 <td>0.600</td>
 <td>0.515</td>
 <td>55.5 M</td>
 </tr>
 <tr>
-<td>PatchTST</td>
+<td>PatchTST</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PatchTST_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PatchTST_pretrained.pdparams">训练模型</a></td>
 <td>0.385</td>
 <td>0.397</td>
 <td>2.0M</td>
 </tr>
 <tr>
-<td>RLinear</td>
+<td>RLinear</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/RLinear_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/RLinear_pretrained.pdparams">训练模型</a></td>
 <td>0.384</td>
 <td>0.392</td>
 <td>40K</td>
 </tr>
 <tr>
-<td>TiDE</td>
+<td>TiDE</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/TiDE_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/TiDE_pretrained.pdparams">训练模型</a></td>
 <td>0.405</td>
 <td>0.412</td>
 <td>31.7M</td>
 </tr>
 <tr>
-<td>TimesNet</td>
+<td>TimesNet</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/TimesNet_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/TimesNet_pretrained.pdparams">训练模型</a></td>
 <td>0.417</td>
 <td>0.431</td>
 <td>4.9M</td>
@@ -274,9 +274,10 @@ for res in output:
 
 <details><summary>API参考</summary>
 
-<p>对于服务提供的所有操作：</p>
+<p>对于服务提供的主要操作：</p>
 <ul>
-<li>响应体以及POST请求的请求体均为JSON数据（JSON对象）。</li>
+<li>HTTP请求方法为POST。</li>
+<li>请求体和响应体均为JSON数据（JSON对象）。</li>
 <li>当请求处理成功时，响应状态码为<code>200</code>，响应体的属性如下：</li>
 </ul>
 <table>
@@ -325,7 +326,7 @@ for res in output:
 </tr>
 </tbody>
 </table>
-<p>服务提供的操作如下：</p>
+<p>服务提供的主要操作如下：</p>
 <ul>
 <li><b><code>infer</code></b></li>
 </ul>

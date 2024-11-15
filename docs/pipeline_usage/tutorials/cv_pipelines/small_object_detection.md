@@ -16,7 +16,7 @@ comments: true
 <table>
 <thead>
 <tr>
-<th>模型名称</th>
+<th>模型</th><th>模型下载链接</th>
 <th>mAP（%）</th>
 <th>GPU推理耗时（ms）</th>
 <th>CPU推理耗时（ms）</th>
@@ -25,21 +25,21 @@ comments: true
 </thead>
 <tbody>
 <tr>
-<td>PP-YOLOE_plus_SOD-S</td>
+<td>PP-YOLOE_plus_SOD-S</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PP-YOLOE_plus_SOD-S_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-S_pretrained.pdparams">训练模型</a></td>
 <td>25.1</td>
 <td>65.4608</td>
 <td>324.37</td>
 <td>77.3 M</td>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-L</td>
+<td>PP-YOLOE_plus_SOD-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PP-YOLOE_plus_SOD-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-L_pretrained.pdparams">训练模型</a></td>
 <td>31.9</td>
 <td>57.1448</td>
 <td>1006.98</td>
 <td>325.0 M</td>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-largesize-L</td>
+<td>PP-YOLOE_plus_SOD-largesize-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/PP-YOLOE_plus_SOD-largesize-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-largesize-L_pretrained.pdparams">训练模型</a></td>
 <td>42.7</td>
 <td>458.521</td>
 <td>11172.7</td>
@@ -194,12 +194,12 @@ for res in output:
 <tr>
 <td>print</td>
 <td>打印结果到终端</td>
-<td><code>- format_json</code>：bool类型，是否对输出内容进行使用json缩进格式化，默认为True；<br><code>- indent</code>：int类型，json格式化设置，仅当format_json为True时有效，默认为4；<br><code>- ensure_ascii</code>：bool类型，json格式化设置，仅当format_json为True时有效，默认为False；</td>
+<td><code>- format_json</code>：bool类型，是否对输出内容进行使用json缩进格式化，默认为True；<br/><code>- indent</code>：int类型，json格式化设置，仅当format_json为True时有效，默认为4；<br/><code>- ensure_ascii</code>：bool类型，json格式化设置，仅当format_json为True时有效，默认为False；</td>
 </tr>
 <tr>
 <td>save_to_json</td>
 <td>将结果保存为json格式的文件</td>
-<td><code>- save_path</code>：str类型，保存的文件路径，当为目录时，保存文件命名与输入文件类型命名一致；<br><code>- indent</code>：int类型，json格式化设置，默认为4；<br><code>- ensure_ascii</code>：bool类型，json格式化设置，默认为False；</td>
+<td><code>- save_path</code>：str类型，保存的文件路径，当为目录时，保存文件命名与输入文件类型命名一致；<br/><code>- indent</code>：int类型，json格式化设置，默认为4；<br/><code>- ensure_ascii</code>：bool类型，json格式化设置，默认为False；</td>
 </tr>
 <tr>
 <td>save_to_img</td>
@@ -237,9 +237,10 @@ for res in output:
 
 <details><summary>API参考</summary>
 
-<p>对于服务提供的所有操作：</p>
+<p>对于服务提供的主要操作：</p>
 <ul>
-<li>响应体以及POST请求的请求体均为JSON数据（JSON对象）。</li>
+<li>HTTP请求方法为POST。</li>
+<li>请求体和响应体均为JSON数据（JSON对象）。</li>
 <li>当请求处理成功时，响应状态码为<code>200</code>，响应体的属性如下：</li>
 </ul>
 <table>
@@ -288,12 +289,12 @@ for res in output:
 </tr>
 </tbody>
 </table>
-<p>服务提供的操作如下：</p>
+<p>服务提供的主要操作如下：</p>
 <ul>
 <li><b><code>infer</code></b></li>
 </ul>
 <p>对图像进行目标检测。</p>
-<p><code>POST /object-detection</code></p>
+<p><code>POST /small-object-detection</code></p>
 <ul>
 <li>请求体的属性如下：</li>
 </ul>
@@ -403,7 +404,7 @@ for res in output:
 <pre><code class="language-python">import base64
 import requests
 
-API_URL = &quot;http://localhost:8080/object-detection&quot; # 服务URL
+API_URL = &quot;http://localhost:8080/small-object-detection&quot; # 服务URL
 image_path = &quot;./demo.jpg&quot;
 output_image_path = &quot;./out.jpg&quot;
 
@@ -461,7 +462,7 @@ int main() {
     std::string body = jsonObj.dump();
 
     // 调用API
-    auto response = client.Post(&quot;/object-detection&quot;, headers, body, &quot;application/json&quot;);
+    auto response = client.Post(&quot;/small-object-detection&quot;, headers, body, &quot;application/json&quot;);
     // 处理接口返回数据
     if (response &amp;&amp; response-&gt;status == 200) {
         nlohmann::json jsonResponse = nlohmann::json::parse(response-&gt;body);
@@ -507,7 +508,7 @@ import java.util.Base64;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String API_URL = &quot;http://localhost:8080/object-detection&quot;; // 服务URL
+        String API_URL = &quot;http://localhost:8080/small-object-detection&quot;; // 服务URL
         String imagePath = &quot;./demo.jpg&quot;; // 本地图像
         String outputImagePath = &quot;./out.jpg&quot;; // 输出图像
 
@@ -566,7 +567,7 @@ import (
 )
 
 func main() {
-    API_URL := &quot;http://localhost:8080/object-detection&quot;
+    API_URL := &quot;http://localhost:8080/small-object-detection&quot;
     imagePath := &quot;./demo.jpg&quot;
     outputImagePath := &quot;./out.jpg&quot;
 
@@ -649,7 +650,7 @@ using Newtonsoft.Json.Linq;
 
 class Program
 {
-    static readonly string API_URL = &quot;http://localhost:8080/object-detection&quot;;
+    static readonly string API_URL = &quot;http://localhost:8080/small-object-detection&quot;;
     static readonly string imagePath = &quot;./demo.jpg&quot;;
     static readonly string outputImagePath = &quot;./out.jpg&quot;;
 
@@ -688,7 +689,7 @@ class Program
 <pre><code class="language-js">const axios = require('axios');
 const fs = require('fs');
 
-const API_URL = 'http://localhost:8080/object-detection'
+const API_URL = 'http://localhost:8080/small-object-detection'
 const imagePath = './demo.jpg'
 const outputImagePath = &quot;./out.jpg&quot;;
 
@@ -729,7 +730,7 @@ axios.request(config)
 
 <pre><code class="language-php">&lt;?php
 
-$API_URL = &quot;http://localhost:8080/object-detection&quot;; // 服务URL
+$API_URL = &quot;http://localhost:8080/small-object-detection&quot;; // 服务URL
 $image_path = &quot;./demo.jpg&quot;;
 $output_image_path = &quot;./out.jpg&quot;;
 
