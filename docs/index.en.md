@@ -98,6 +98,7 @@ PaddleX 3.0 is a low-code development tool for AI models built on the PaddlePadd
     </table>
 
 
+
 ## 🌟 Why PaddleX ?
 
   🎨 <b>Rich Models One-click Call</b>: Integrate over <b>200 PaddlePaddle models</b> covering multiple key areas such as OCR, object detection, and time series forecasting into <b>19 pipelines</b>. Experience the model effects quickly through easy Python API calls. Also supports <b>more than 20 modules</b> for easy model combination use by developers.

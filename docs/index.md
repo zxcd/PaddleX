@@ -122,8 +122,7 @@ PaddleX 3.0 是基于飞桨框架构建的低代码开发工具，它集成了�
 
  <b>PaddleX 致力于实现产线级别的模型训练、推理与部署。模型产线是指一系列预定义好的、针对特定AI任务的开发流程，其中包含能够独立完成某类任务的单模型（单功能模块）组合。</b>
 
-
- ## 📊 能力支持
+## 📊 能力支持
 
 PaddleX的各个产线均支持本地<b>快速推理</b>，部分模型支持在[AI Studio星河社区](https://aistudio.baidu.com/overview)上进行<b>在线体验</b>，您可以快速体验各个产线的预训练模型效果，如果您对产线的预训练模型效果满意，可以直接对产线进行[高性能推理](https://paddlepaddle.github.io/PaddleX/latest/pipeline_deploy/high_performance_inference.html)/[服务化部署](https://paddlepaddle.github.io/PaddleX/latest/pipeline_deploy/service_deploy.html)/[端侧部署](https://paddlepaddle.github.io/PaddleX/latest/pipeline_deploy/edge_deploy.html)，如果不满意，您也可以使用产线的<b>二次开发</b>能力，提升效果。完整的产线开发流程请参考[PaddleX产线使用概览](https://paddlepaddle.github.io/PaddleX/latest/pipeline_usage/pipeline_develop_guide.html)或各产线使用[教程](#-文档)。
 
@@ -345,8 +344,8 @@ PaddleX的各个产线均支持本地<b>快速推理</b>，部分模型支持在
 
 </table>
 
-
-> ❗注：以上功能均基于 GPU/CPU 实现。PaddleX 还可在昆仑芯、昇腾、寒武纪和海光等主流硬件上进行快速推理和二次开发。下表详细列出了模型产线的支持情况，具体支持的模型列表请参阅[模型列表(昆仑芯XPU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_xpu.html)/[模型列表(昇腾NPU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_npu.html)/[模型列表(寒武纪MLU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_mlu.html)/[模型列表(海光DCU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_dcu.html)。我们正在适配更多的模型，并在主流硬件上推动高性能和服务化部署的实施。
+!!! tip
+     以上功能均基于 GPU/CPU 实现。PaddleX 还可在昆仑芯、昇腾、寒武纪和海光等主流硬件上进行快速推理和二次开发。下表详细列出了模型产线的支持情况，具体支持的模型列表请参阅[模型列表(昆仑芯XPU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_xpu.html)/[模型列表(昇腾NPU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_npu.html)/[模型列表(寒武纪MLU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_mlu.html)/[模型列表(海光DCU)](https://paddlepaddle.github.io/PaddleX/latest/support_list/model_list_dcu.html)。我们正在适配更多的模型，并在主流硬件上推动高性能和服务化部署的实施。
 
 🔥🔥 <b>国产化硬件能力支持</b>
 
