@@ -26,7 +26,6 @@ MODELS = [
     "RT-DETR-R50",
     "RT-DETR-X",
     "PicoDet_layout_1x",
-    "PicoDet_layout_1x_table",
     "PicoDet-S_layout_3cls",
     "PicoDet-S_layout_17cls",
     "PicoDet-L_layout_3cls",
