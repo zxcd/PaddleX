@@ -407,7 +407,7 @@ python main.py -c paddlex/configs/semantic_segmentation/PP-LiteSeg-T.yaml \
 ```bash
 python main.py -c paddlex/configs/semantic_segmentation/PP-LiteSeg-T.yaml \
     -o Global.mode=predict \
-    -o Predict.model_dir="./output/best_model" \
+    -o Predict.model_dir="./output/best_model/inference" \
     -o Predict.input="general_semantic_segmentation_002.png"
 ```
 与模型训练和评估类似，需要如下几步：
