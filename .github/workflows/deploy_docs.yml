@@ -29,4 +29,3 @@ jobs:
           git fetch origin gh-pages --depth=1
           mike deploy --push --update-aliases 3.0-beta2 latest
           mike set-default --push latest
-
