@@ -418,7 +418,7 @@ To perform inference predictions via the command line, use the following command
 ```bash
 python main.py -c paddlex/configs/semantic_segmentation/PP-LiteSeg-T.yaml \
     -o Global.mode=predict \
-    -o Predict.model_dir="./output/best_model" \
+    -o Predict.model_dir="./output/best_model/inference" \
     -o Predict.input="general_semantic_segmentation_002.png"
 ```
 
@@ -428,7 +428,7 @@ Similar to model training and evaluation, the following steps are required:
 
 * Set the mode to model inference prediction: `-o Global.mode=predict`
 
-* Specify the model weights path: -o Predict.model_dir="./output/best_accuracy/inference"
+* Specify the model weights path: `-o Predict.model_dir="./output/best_model/inference"`
 
 Specify the input data path: `-o Predict.inputh="..."` Other related parameters can be set by modifying the fields under Global and Predict in the `.yaml` configuration file. For details, refer to PaddleX Common Model Configuration File Parameter Description.
 
