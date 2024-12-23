@@ -20,7 +20,6 @@ import copy
 import time
 import tqdm
 import inspect
-import logging
 import requests
 import tempfile
 import threading
@@ -37,6 +36,7 @@ from lazy_paddle import __version__
 from filelock import FileLock
 from contextlib import contextmanager
 from functools import partial
+from paddlex.utils import logging
 
 logger = logging.getLogger(__name__)
 

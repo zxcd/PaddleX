@@ -24,4 +24,4 @@ from .vision import (
 
 from .static_infer import StaticInfer
 
-from tokenizer import *
+from .tokenizer import PretrainedTokenizer, PretrainedTokenizer

@@ -21,7 +21,7 @@ from typing import Dict, Optional, Union
 import jieba
 import numpy as np
 import sentencepiece as spm
-from paddle.utils import try_import
+from lazy_paddle.utils import try_import
 
 from .tokenizer_utils import PretrainedTokenizer
 from .tokenizer_utils_base import (

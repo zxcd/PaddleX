@@ -32,12 +32,9 @@ from jinja2.sandbox import ImmutableSandboxedEnvironment
 from paddle.utils import try_import
 
 from .utils import CHAT_TEMPLATE_CONFIG_NAME
-import logging
+from paddlex.utils import logging
 
-try:
-    from functools import lru_cache
-except ImportError:
-    from backports.functools_lru_cache import lru_cache
+from functools import lru_cache
 
 from .vocab import Vocab
 from .tokenizer_utils_base import (

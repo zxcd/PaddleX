@@ -17,7 +17,6 @@ import io
 import json
 import os
 
-# import shutil
 import warnings
 from collections import OrderedDict, UserDict
 from dataclasses import dataclass, field
@@ -28,7 +27,7 @@ import numpy as np
 import lazy_paddle as paddle
 
 from .utils import resolve_file_path
-import logging
+from paddlex.utils import logging
 
 __all__ = [
     "AddedToken",
@@ -1900,20 +1899,6 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
         self.save_resources(save_directory)
 
         return file_names + (added_tokens_file,)
-
-    # def save_resources(self, save_directory):
-    #     """
-    #     Save tokenizer related resources to `resource_files_names` indicating
-    #     files under `save_directory` by copying directly. Override it if necessary.
-
-    #     Args:
-    #         save_directory (str): Directory to save files into.
-    #     """
-    #     for name, file_name in self.resource_files_names.items():
-    #         src_path = self.init_kwargs[name]
-    #         dst_path = os.path.join(save_directory, file_name)
-    #         if os.path.abspath(src_path) != os.path.abspath(dst_path):
-    #             shutil.copyfile(src_path, dst_path)
 
     def tokenize(
         self,

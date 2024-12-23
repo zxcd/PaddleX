@@ -36,3 +36,6 @@ erniebot-agent == 0.5.0
 unstructured
 networkx
 faiss-cpu
+jieba
+sentencepiece
+jinja2
