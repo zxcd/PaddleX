@@ -36,6 +36,10 @@ erniebot-agent == 0.5.0
 unstructured
 networkx
 faiss-cpu
+######## For NLP Tokenizer #######
 jieba
 sentencepiece
 jinja2
+regex
+######## For Speech #######
+soundfile

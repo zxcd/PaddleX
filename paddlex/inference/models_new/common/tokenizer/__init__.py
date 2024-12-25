@@ -14,4 +14,3 @@
 
 from .tokenizer_utils import PretrainedTokenizer
 from .gpt_tokenizer import GPTTokenizer
-from .utils import *

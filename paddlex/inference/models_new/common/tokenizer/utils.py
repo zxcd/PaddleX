@@ -24,13 +24,6 @@ import requests
 import tempfile
 import threading
 
-from functools import lru_cache
-from urllib.parse import urlparse
-from dataclasses import dataclass
-from argparse import ArgumentTypeError
-from pathlib import Path
-from typing import List, Dict, Literal, Optional, Union, Callable, BinaryIO
-
 from lazy_paddle import __version__
 
 from filelock import FileLock
@@ -38,7 +31,14 @@ from contextlib import contextmanager
 from functools import partial
 from paddlex.utils import logging
 
-logger = logging.getLogger(__name__)
+from functools import lru_cache
+from urllib.parse import urlparse
+from dataclasses import dataclass
+from argparse import ArgumentTypeError
+from pathlib import Path
+from typing import List, Dict, Literal, Optional, Union, Callable, BinaryIO
+
+logger = logging._logger
 
 __all__ = [
     "OfflineModeIsEnabled",

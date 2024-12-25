@@ -21,7 +21,8 @@ from typing import Dict, Optional, Union
 import jieba
 import numpy as np
 import sentencepiece as spm
-from lazy_paddle.utils import try_import
+import lazy_paddle as paddle
+import regex as re
 
 from .tokenizer_utils import PretrainedTokenizer
 from .tokenizer_utils_base import (
@@ -230,7 +231,6 @@ class GPTTokenizer(PretrainedTokenizer):
         self.add_prefix_space = add_prefix_space
         self.add_bos_token = add_bos_token
 
-        re = try_import("regex")
         self.pat = re.compile(
             r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
         )
@@ -297,7 +297,6 @@ class GPTTokenizer(PretrainedTokenizer):
     def _tokenize(self, text):
         """Tokenize a string."""
         bpe_tokens = []
-        re = try_import("regex")
         for token in re.findall(self.pat, text):
             token = "".join(self.byte_encoder[b] for b in token.encode("utf-8"))
             bpe_tokens.extend(bpe_token for bpe_token in self.bpe(token).split(" "))

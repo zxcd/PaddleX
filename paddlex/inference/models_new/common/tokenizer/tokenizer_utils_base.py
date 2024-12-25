@@ -43,9 +43,10 @@ __all__ = [
     "PretrainedTokenizerBase",
 ]
 
-logger = logging.getLogger(__name__)
+logger = logging._logger
 
 TOKENIZER_CONFIG_NAME = "tokenizer_config.json"
+CHAT_TEMPLATE_CONFIG_NAME = "chat_template.json"
 CHAT_TEMPLATE_CONFIG_NAME = "chat_template.json"
 
 VERY_LARGE_INTEGER = int(
@@ -1264,7 +1265,7 @@ class SpecialTokensMixin:
         """
         set_attr = {}
         for attr in self.SPECIAL_TOKENS_ATTRIBUTES:
-            attr_value = getattr(self, "_" + attr)
+            attr_value = getattr(self, "_" + attr, None)
             if attr_value:
                 set_attr[attr] = attr_value
         return set_attr
