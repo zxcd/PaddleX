@@ -17,6 +17,6 @@ CheckDataset:
 Predict:
   batch_size: 1
   model_dir: "whisper-medium"
-  input: "./zh.wav"
+  input: "https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav"
   kernel_option:
     run_mode: paddle
