@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .base_batch_sampler import BaseBatchSampler
-from .image_batch_sampler import ImageBatchSampler
-from .audio_batch_sampler import AudioBatchSampler
+from ...common.result import BaseResult, StrMixin
+
+
+class WhisperResult(BaseResult, StrMixin):
+
+    def __init__(self, data: dict) -> None:
+        super().__init__(data)
+        StrMixin.__init__(self)

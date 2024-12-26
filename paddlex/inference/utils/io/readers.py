@@ -21,6 +21,7 @@ from PIL import Image, ImageOps
 import pandas as pd
 import numpy as np
 import yaml
+import soundfile
 
 __all__ = [
     "ReaderType",
@@ -29,6 +30,7 @@ __all__ = [
     "CSVReader",
     "PDFReader",
     "YAMLReader",
+    "AudioReader",
 ]
 
 
@@ -90,7 +92,7 @@ class PDFReader(_BaseReader):
         super().__init__(backend, **bk_args)
 
     def read(self, in_path):
-        yield from self._backend.read_file(str(in_path))
+        return self._backend.read_file(str(in_path))
 
     def _init_backend(self, bk_type, bk_args):
         return PDFReaderBackend(**bk_args)
@@ -233,13 +235,15 @@ class PDFReaderBackend(_BaseReaderBackend):
         self.mat = fitz.Matrix(zoom_x, zoom_y).prerotate(rotate)
 
     def read_file(self, in_path):
+        images = []
         for page in fitz.open(in_path):
             pix = page.get_pixmap(matrix=self.mat, alpha=False)
             getpngdata = pix.tobytes(output="png")
             # decode as np.uint8
             image_array = np.frombuffer(getpngdata, dtype=np.uint8)
             img_cv = cv2.imdecode(image_array, cv2.IMREAD_ANYCOLOR)
-            yield img_cv
+            images.append(img_cv)
+        return images
 
 
 class _VideoReaderBackend(_BaseReaderBackend):
@@ -347,5 +351,41 @@ class YAMLReaderBackend(_BaseReaderBackend):
 
     def read_file(self, in_path, **kwargs):
         with open(in_path, "r", encoding="utf-8", **kwargs) as yaml_file:
-            data = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            data = yaml.safe_load(yaml_file)
         return data
+
+
+class AudioReader(_BaseReader):
+    def __init__(self, backend="wav", **bk_args):
+        super().__init__(backend="wav", **bk_args)
+
+    def _init_backend(self, bk_type, bk_args):
+        """init backend"""
+        if bk_type == "wav":
+            return WAVReaderBackend(**bk_args)
+        else:
+            raise ValueError("Unsupported backend type")
+
+    def read(self, in_path):
+        audio, audio_sample_rate = self._backend.read_file(str(in_path))
+        return audio, audio_sample_rate
+
+
+class _AudioReaderBackend(_BaseReaderBackend):
+    """_AudioReaderBackend"""
+
+    pass
+
+
+class WAVReaderBackend(_AudioReaderBackend):
+    """PandasCSVReaderBackend"""
+
+    def __init__(self):
+        super().__init__()
+
+    def read_file(self, in_path):
+        """read wav file from path"""
+        audio, audio_sample_rate = soundfile.read(
+            in_path, dtype="float32", always_2d=True
+        )
+        return audio, audio_sample_rate

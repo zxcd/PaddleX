@@ -12,6 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from .base_batch_sampler import BaseBatchSampler
-from .image_batch_sampler import ImageBatchSampler
-from .audio_batch_sampler import AudioBatchSampler
+from .predictor import WhisperPredictor
