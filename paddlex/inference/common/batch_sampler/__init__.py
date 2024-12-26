@@ -14,4 +14,5 @@
 
 from .base_batch_sampler import BaseBatchSampler
 from .image_batch_sampler import ImageBatchSampler
+from .ts_batch_sampler import TSBatchSampler
 from .audio_batch_sampler import AudioBatchSampler
