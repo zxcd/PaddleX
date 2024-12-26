@@ -14,3 +14,4 @@
 
 from .image_reader import ReadImage
 from .audio_reader import ReadAudio
+from .ts_reader import ReadTS
