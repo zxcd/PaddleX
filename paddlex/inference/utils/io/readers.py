@@ -241,7 +241,7 @@ class PDFReaderBackend(_BaseReaderBackend):
             # decode as np.uint8
             image_array = np.frombuffer(getpngdata, dtype=np.uint8)
             img_cv = cv2.imdecode(image_array, cv2.IMREAD_ANYCOLOR)
-        yield img_cv
+            yield img_cv
 
 
 class _VideoReaderBackend(_BaseReaderBackend):
@@ -349,7 +349,7 @@ class YAMLReaderBackend(_BaseReaderBackend):
 
     def read_file(self, in_path, **kwargs):
         with open(in_path, "r", encoding="utf-8", **kwargs) as yaml_file:
-            data = yaml.safe_load(yaml_file)
+            data = yaml.load(yaml_file, Loader=yaml.FullLoader)
         return data
 
 
