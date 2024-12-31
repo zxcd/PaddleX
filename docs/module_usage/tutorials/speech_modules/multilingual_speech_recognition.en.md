@@ -53,7 +53,7 @@ To perform inference prediction via the command line, simply use the following c
 Before running the following code, please download the [demo audio](https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav) to your local machine.
 
 ```bash
-python main.py -c paddlex/configs/multilingual_speech_recognition/whisper_large.yaml \
+python main.py -c paddlex/configs/modules/multilingual_speech_recognition/whisper_large.yaml \
     -o Global.mode=predict \
     -o Predict.input="./zh.wav"
 ```

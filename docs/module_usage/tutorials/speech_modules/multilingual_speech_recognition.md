@@ -51,7 +51,7 @@ wget https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav
 通过命令行的方式进行推理预测，只需如下一条命令。运行以下代码前，请您下载[示例语音](https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav)到本地。
 
 ```bash
-python main.py -c paddlex/configs/multilingual_speech_recognition/whisper_large.yaml \
+python main.py -c paddlex/configs/modules/multilingual_speech_recognition/whisper_large.yaml \
     -o Global.mode=predict \
     -o Predict.input="./zh.wav"
 ```
