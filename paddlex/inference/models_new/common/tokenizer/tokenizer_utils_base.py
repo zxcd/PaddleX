@@ -26,8 +26,7 @@ from typing import Any, Dict, List, NamedTuple, Optional, Sequence, Tuple, Union
 import numpy as np
 import lazy_paddle as paddle
 
-from .utils import resolve_file_path
-from paddlex.utils import logging
+from .....utils import logging
 
 __all__ = [
     "AddedToken",
@@ -42,8 +41,6 @@ __all__ = [
     "SpecialTokensMixin",
     "PretrainedTokenizerBase",
 ]
-
-logger = logging._logger
 
 TOKENIZER_CONFIG_NAME = "tokenizer_config.json"
 CHAT_TEMPLATE_CONFIG_NAME = "chat_template.json"
@@ -912,7 +909,7 @@ class SpecialTokensMixin:
             ), f"Key {key} is not a special token"
 
             if self.verbose:
-                logger.info(f"Assigning {value} to the {key} key of the tokenizer")
+                logging.info(f"Assigning {value} to the {key} key of the tokenizer")
             setattr(self, key, value)
 
             if key == "additional_special_tokens":
@@ -988,7 +985,7 @@ class SpecialTokensMixin:
         `str`: Beginning of sentence token. Log an error if used while not having been set.
         """
         if self._bos_token is None and self.verbose:
-            logger.error("Using bos_token, but it is not set yet.")
+            logging.error("Using bos_token, but it is not set yet.")
             return None
         return str(self._bos_token)
 
@@ -998,7 +995,7 @@ class SpecialTokensMixin:
         `str`: End of sentence token. Log an error if used while not having been set.
         """
         if self._eos_token is None and self.verbose:
-            logger.error("Using eos_token, but it is not set yet.")
+            logging.error("Using eos_token, but it is not set yet.")
             return None
         return str(self._eos_token)
 
@@ -1008,7 +1005,7 @@ class SpecialTokensMixin:
         `str`: Unknown token. Log an error if used while not having been set.
         """
         if self._unk_token is None and self.verbose:
-            logger.error("Using unk_token, but it is not set yet.")
+            logging.error("Using unk_token, but it is not set yet.")
             return None
         return str(self._unk_token)
 
@@ -1019,7 +1016,7 @@ class SpecialTokensMixin:
         having been set.
         """
         if self._sep_token is None and self.verbose:
-            logger.error("Using sep_token, but it is not set yet.")
+            logging.error("Using sep_token, but it is not set yet.")
             return None
         return str(self._sep_token)
 
@@ -1029,7 +1026,7 @@ class SpecialTokensMixin:
         `str`: Padding token. Log an error if used while not having been set.
         """
         if self._pad_token is None and self.verbose:
-            logger.error("Using pad_token, but it is not set yet.")
+            logging.error("Using pad_token, but it is not set yet.")
             return None
         return str(self._pad_token)
 
@@ -1040,7 +1037,7 @@ class SpecialTokensMixin:
         depth of the model. Log an error if used while not having been set.
         """
         if self._cls_token is None and self.verbose:
-            logger.error("Using cls_token, but it is not set yet.")
+            logging.error("Using cls_token, but it is not set yet.")
             return None
         return str(self._cls_token)
 
@@ -1051,7 +1048,7 @@ class SpecialTokensMixin:
         having been set.
         """
         if self._mask_token is None and self.verbose:
-            logger.error("Using mask_token, but it is not set yet.")
+            logging.error("Using mask_token, but it is not set yet.")
             return None
         return str(self._mask_token)
 
@@ -1062,7 +1059,7 @@ class SpecialTokensMixin:
         set.
         """
         if self._additional_special_tokens is None and self.verbose:
-            logger.error("Using additional_special_tokens, but it is not set yet.")
+            logging.error("Using additional_special_tokens, but it is not set yet.")
             return None
         return [str(tok) for tok in self._additional_special_tokens]
 
@@ -1606,14 +1603,17 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
             if file_path is None or os.path.isfile(file_path):
                 resolved_vocab_files[file_id] = file_path
                 continue
-            resolved_vocab_files[file_id] = resolve_file_path(
-                pretrained_model_name_or_path,
-                [file_path],
-                subfolder,
-                cache_dir=cache_dir,
-                from_aistudio=from_aistudio,
-                from_hf_hub=from_hf_hub,
-            )
+            else:
+                logging.warnings("need to download tokenizer, but not support yet.")
+            # tokenizer download not support yet
+            # resolved_vocab_files[file_id] = resolve_file_path(
+            #     pretrained_model_name_or_path,
+            #     [file_path],
+            #     subfolder,
+            #     cache_dir=cache_dir,
+            #     from_aistudio=from_aistudio,
+            #     from_hf_hub=from_hf_hub,
+            # )
 
         for file_id, file_path in resolved_vocab_files.items():
             if resolved_vocab_files[file_id] is not None:
@@ -1763,7 +1763,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
         # Check all our special tokens are registered as "no split" token (we don't cut them) and are in the vocab
         added_tokens = tokenizer.sanitize_special_tokens()
         if added_tokens:
-            logger.info(
+            logging.info(
                 "Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained."
             )
         # save all of related things into default root dir
@@ -1854,7 +1854,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
 
         with io.open(tokenizer_config_file, "w", encoding="utf-8") as f:
             f.write(json.dumps(tokenizer_config, ensure_ascii=False))
-        logger.info(f"tokenizer config file saved in {tokenizer_config_file}")
+        logging.info(f"tokenizer config file saved in {tokenizer_config_file}")
 
         # Sanitize AddedTokens in special_tokens_map
         write_dict = convert_added_tokens(
@@ -1862,7 +1862,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
         )
         with open(special_tokens_map_file, "w", encoding="utf-8") as f:
             f.write(json.dumps(write_dict, ensure_ascii=False))
-        logger.info(f"Special tokens file saved in {special_tokens_map_file}")
+        logging.info(f"Special tokens file saved in {special_tokens_map_file}")
 
         file_names = (tokenizer_config_file, special_tokens_map_file)
 
@@ -1895,7 +1895,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
             with open(added_tokens_file, "w", encoding="utf-8") as f:
                 out_str = json.dumps(added_vocab, ensure_ascii=False)
                 f.write(out_str)
-                logger.info(f"added tokens file saved in {added_tokens_file}")
+                logging.info(f"added tokens file saved in {added_tokens_file}")
 
         self.save_resources(save_directory)
 
@@ -3130,7 +3130,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
                         error_msg + "Please select another truncation strategy than "
                         f"{truncation_strategy}, for instance 'longest_first' or 'only_second'."
                     )
-                logger.error(error_msg)
+                logging.error(error_msg)
         elif truncation_strategy == TruncationStrategy.LONGEST_FIRST:
             warnings.warn(
                 f"Be aware, overflowing tokens are not returned for the setting you have chosen,"
@@ -3174,7 +3174,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
                         "invalid truncation strategy:" + str(self.truncation_side)
                     )
             else:
-                logger.error(
+                logging.error(
                     f"We need to remove {num_tokens_to_remove} to truncate the input "
                     f"but the second sequence has a length {len(pair_ids)}. "
                     f"Please select another truncation strategy than {truncation_strategy}, "
@@ -3494,7 +3494,7 @@ class PretrainedTokenizerBase(SpecialTokensMixin):
             if not self.deprecation_warnings.get(
                 "sequence-length-is-longer-than-the-specified-maximum", False
             ):
-                logger.warning(
+                logging.warning(
                     "Token indices sequence length is longer than the specified maximum sequence length "
                     f"for this model ({len(ids)} > {self.model_max_length}). Running this sequence through the model "
                     "will result in indexing errors"

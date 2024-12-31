@@ -34,7 +34,7 @@ from jinja2.exceptions import TemplateError, TemplateSyntaxError
 from jinja2.sandbox import ImmutableSandboxedEnvironment
 
 from .tokenizer_utils_base import CHAT_TEMPLATE_CONFIG_NAME
-from paddlex.utils import logging
+from .....utils import logging
 
 from functools import lru_cache
 
@@ -62,8 +62,6 @@ __all__ = [
     "PretrainedTokenizer",
     "InitTrackerMeta",
 ]
-
-logger = logging._logger
 
 
 @dataclass
@@ -178,7 +176,7 @@ class ChatTemplate:
                 "The length of last conversation must be one, eg: [[user-query, bot-answer], [user-query, bot-answer], ..., [user-query]]"
             )
         if len(conversations[-1]) > 1:
-            logger.warning(
+            logging.warning(
                 f"The last conversation is not a single-round, chat-template will skip the conversation: {conversations[-1][1:]}"
             )
 
@@ -214,29 +212,18 @@ def adapt_stale_fwd_patch(self, name, value):
             "StaticFunction"
         ) or self.forward.__class__.__name__.endswith("StaticFunction"):
             return value
-        if hasattr(inspect, "getfullargspec"):
-            (
-                patch_spec_args,
-                patch_spec_varargs,
-                patch_spec_varkw,
-                patch_spec_defaults,
-                _,
-                _,
-                _,
-            ) = inspect.getfullargspec(value)
-            (spec_args, spec_varargs, spec_varkw, spec_defaults, _, _, _) = (
-                inspect.getfullargspec(self.forward)
-            )
-        else:
-            (
-                patch_spec_args,
-                patch_spec_varargs,
-                patch_spec_varkw,
-                patch_spec_defaults,
-            ) = inspect.getargspec(value)
-            (spec_args, spec_varargs, spec_varkw, spec_defaults) = inspect.getargspec(
-                self.forward
-            )
+        (
+            patch_spec_args,
+            patch_spec_varargs,
+            patch_spec_varkw,
+            patch_spec_defaults,
+            _,
+            _,
+            _,
+        ) = inspect.getfullargspec(value)
+        (spec_args, spec_varargs, spec_varkw, spec_defaults, _, _, _) = (
+            inspect.getfullargspec(self.forward)
+        )
         new_args = [
             arg
             for arg in ("output_hidden_states", "output_attentions", "return_dict")
@@ -552,7 +539,7 @@ class Trie:
         start = 0
         for end in offsets:
             if start > end:
-                logger.error(
+                logging.error(
                     "There was a bug in Trie algorithm in tokenization. Attempting to recover. Please report it anyway."
                 )
                 continue
@@ -891,10 +878,10 @@ class ChatTemplateMixin:
             return tokenizer
 
         if tokenizer.chat_template is not None:
-            logger.warning(
+            logging.warning(
                 "Chat-template already exists in config file, it will be overwritten by chat_template.json file."
             )
-            logger.warning(
+            logging.warning(
                 "`chat_template.json` will be deprecated in the future! Please set it in `tokenizer_config.json`."
             )
         tokenizer.init_chat_template(chat_template_file)
@@ -938,7 +925,7 @@ class ChatTemplateMixin:
             chat_template_file = os.path.join(save_directory, CHAT_TEMPLATE_CONFIG_NAME)
             with open(chat_template_file, "w", encoding="utf-8") as f:
                 json.dump(asdict(self.chat_template), f, ensure_ascii=False, indent=4)
-            logger.info("Chat-template config file saved in " + chat_template_file)
+            logging.info("Chat-template config file saved in " + chat_template_file)
 
 
 @six.add_metaclass(InitTrackerMeta)
@@ -1101,7 +1088,7 @@ class PretrainedTokenizer(ChatTemplateMixin, PretrainedTokenizerBase):
             ):
                 tokens_to_add.append(token)
                 if self.verbose:
-                    logger.info(f"Adding {token} to the vocabulary")
+                    logging.info(f"Adding {token} to the vocabulary")
 
         added_tok_encoder = dict(
             (tok, len(self) + i) for i, tok in enumerate(tokens_to_add)
