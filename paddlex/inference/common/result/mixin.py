@@ -15,6 +15,7 @@
 from typing import Union, Tuple, List, Dict, Any, Iterator
 from abc import abstractmethod
 from pathlib import Path
+import mimetypes
 import json
 import copy
 import numpy as np
@@ -30,6 +31,7 @@ from ...utils.io import (
     HtmlWriter,
     XlsxWriter,
     TextWriter,
+    VideoWriter,
 )
 
 
@@ -124,11 +126,11 @@ class JsonMixin:
         self._json_writer = JsonWriter()
         self._save_funcs.append(self.save_to_json)
 
-    def _to_json(self) -> dict:
+    def _to_json(self) -> Dict[str, Any]:
         """Convert the object to a JSON-serializable format.
 
         Returns:
-            dict: A dictionary representation of the object that is JSON-serializable.
+            Dict[str, Any]: A dictionary representation of the object that is JSON-serializable.
         """
 
         def _format_data(obj):
@@ -162,7 +164,7 @@ class JsonMixin:
         """Property to get the JSON representation of the result.
 
         Returns:
-            dict: The dict type JSON representation of the result.
+            Dict[str, Any]: The dict type JSON representation of the result.
         """
 
         return self._to_json()
@@ -184,10 +186,16 @@ class JsonMixin:
             *args: Additional positional arguments to pass to the underlying writer.
             **kwargs: Additional keyword arguments to pass to the underlying writer.
         """
-        if not str(save_path).endswith(".json"):
+
+        def _is_json_file(file_path):
+            mime_type, _ = mimetypes.guess_type(file_path)
+            return mime_type is not None and mime_type == "application/json"
+
+        if not _is_json_file(save_path):
             save_path = Path(save_path) / f"{Path(self['input_path']).stem}.json"
+            save_path = save_path.as_posix()
         self._json_writer.write(
-            save_path.as_posix(),
+            save_path,
             self.json,
             indent=indent,
             ensure_ascii=ensure_ascii,
@@ -288,10 +296,16 @@ class ImgMixin:
             *args: Additional positional arguments that will be passed to the image writer.
             **kwargs: Additional keyword arguments that will be passed to the image writer.
         """
-        if not str(save_path).lower().endswith((".jpg", ".png")):
+
+        def _is_image_file(file_path):
+            mime_type, _ = mimetypes.guess_type(file_path)
+            return mime_type is not None and mime_type.startswith("image/")
+
+        if not _is_image_file(save_path):
             fp = Path(self["input_path"])
             save_path = Path(save_path) / f"{fp.stem}{fp.suffix}"
-        self._img_writer.write(save_path.as_posix(), self.img, *args, **kwargs)
+            save_path = save_path.as_posix()
+        self._img_writer.write(save_path, self.img, *args, **kwargs)
 
 
 class CSVMixin:
@@ -430,3 +444,26 @@ class XlsxMixin:
         if not str(save_path).endswith(".xlsx"):
             save_path = Path(save_path) / f"{Path(self['input_path']).stem}.xlsx"
         self._xlsx_writer.write(save_path.as_posix(), self.xlsx, *args, **kwargs)
+
+
+class VideoMixin:
+    def __init__(self, backend="opencv", *args, **kwargs):
+        self._video_writer = VideoWriter(backend=backend, *args, **kwargs)
+        self._save_funcs.append(self.save_to_video)
+
+    @abstractmethod
+    def _to_video(self):
+        raise NotImplementedError
+
+    @property
+    def video(self):
+        video = self._to_video()
+        return video
+
+    def save_to_video(self, save_path, *args, **kwargs):
+        if not str(save_path).lower().endswith((".mp4", ".avi", ".mkv")):
+            fp = Path(self["input_path"])
+            save_path = Path(save_path) / f"{fp.stem}{fp.suffix}"
+        _save_list_data(
+            self._video_writer.write, save_path, self.video, *args, **kwargs
+        )
