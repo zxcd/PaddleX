@@ -31,14 +31,20 @@ import lazy_paddle as paddle
 
 class WhisperPredictor(BasicPredictor):
 
-    entities = ["whisper_tiny"]
-
-    _FUNC_MAP = {}
-    register = FuncRegister(_FUNC_MAP)
+    entities = [
+        "whisper_large",
+        "whisper_base",
+        "whisper_base",
+        "whisper_tiny",
+        "whisper_small",
+    ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.audio_reader = self._build()
+        download_and_extract(
+            self.config["resource_path"], self.config["resource_dir"], "assets"
+        )
 
     def _build_batch_sampler(self):
         return AudioBatchSampler()
@@ -51,9 +57,6 @@ class WhisperPredictor(BasicPredictor):
         return audio_reader
 
     def process(self, batch_data):
-        download_and_extract(
-            self.config["resource_path"], self.config["resource_dir"], "assets"
-        )
         audio, sample_rate = self.audio_reader.read(batch_data[0])
         audio = paddle.to_tensor(audio)
         audio = audio[:, 0]

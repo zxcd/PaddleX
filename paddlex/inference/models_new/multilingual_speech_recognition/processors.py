@@ -24,7 +24,6 @@ from typing import Sequence
 from typing import Tuple
 from typing import Union
 
-# from paddelx.inference.common.tokenizer import GPTTokenizer
 from ..common.tokenizer import GPTTokenizer
 
 import numpy as np
@@ -32,11 +31,8 @@ import lazy_paddle as paddle
 import soundfile
 import tqdm
 import zlib
-from lazy_paddle import nn
-from lazy_paddle.distribution import Categorical
 
 __all__ = [
-    "ModelDimensions",
     "Whisper",
     "Tokenizer",
 ]
@@ -450,14 +446,14 @@ def get_tokenizer(
     )
 
 
-class MultiHeadAttention(nn.Layer):
+class MultiHeadAttention(paddle.nn.Layer):
     def __init__(self, n_state: int, n_head: int):
         super().__init__()
         self.n_head = n_head
-        self.query = nn.Linear(n_state, n_state, bias_attr=True)
-        self.key = nn.Linear(n_state, n_state, bias_attr=False)
-        self.value = nn.Linear(n_state, n_state, bias_attr=True)
-        self.out = nn.Linear(n_state, n_state, bias_attr=True)
+        self.query = paddle.nn.Linear(n_state, n_state, bias_attr=True)
+        self.key = paddle.nn.Linear(n_state, n_state, bias_attr=False)
+        self.value = paddle.nn.Linear(n_state, n_state, bias_attr=True)
+        self.out = paddle.nn.Linear(n_state, n_state, bias_attr=True)
 
     def forward(
         self,
@@ -508,25 +504,25 @@ class MultiHeadAttention(nn.Layer):
         return paddle.transpose((w @ v), (0, 2, 1, 3)).flatten(start_axis=2)
 
 
-class ResidualAttentionBlock(nn.Layer):
+class ResidualAttentionBlock(paddle.nn.Layer):
     def __init__(self, n_state: int, n_head: int, cross_attention: bool = False):
         super().__init__()
 
         self.attn = MultiHeadAttention(n_state, n_head)
-        self.attn_ln = nn.LayerNorm(n_state)
+        self.attn_ln = paddle.nn.LayerNorm(n_state)
 
         self.cross_attn = (
             MultiHeadAttention(n_state, n_head) if cross_attention else None
         )
-        self.cross_attn_ln = nn.LayerNorm(n_state) if cross_attention else None
+        self.cross_attn_ln = paddle.nn.LayerNorm(n_state) if cross_attention else None
 
         n_mlp = n_state * 4
-        self.mlp = nn.Sequential(
-            nn.Linear(n_state, n_mlp, bias_attr=True),
-            nn.GELU(),
-            nn.Linear(n_mlp, n_state, bias_attr=True),
+        self.mlp = paddle.nn.Sequential(
+            paddle.nn.Linear(n_state, n_mlp, bias_attr=True),
+            paddle.nn.GELU(),
+            paddle.nn.Linear(n_mlp, n_state, bias_attr=True),
         )
-        self.mlp_ln = nn.LayerNorm(n_state)
+        self.mlp_ln = paddle.nn.LayerNorm(n_state)
 
     def forward(
         self,
@@ -558,23 +554,23 @@ def sinusoids(length, channels, max_timescale=10000):
     )
 
 
-class AudioEncoder(nn.Layer):
+class AudioEncoder(paddle.nn.Layer):
     def __init__(
         self, n_mels: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
     ):
         super().__init__()
-        self.conv1 = nn.Conv1D(
+        self.conv1 = paddle.nn.Conv1D(
             n_mels, n_state, kernel_size=3, stride=1, padding=1, bias_attr=True
         )
-        self.conv2 = nn.Conv1D(
+        self.conv2 = paddle.nn.Conv1D(
             n_state, n_state, kernel_size=3, stride=2, padding=1, bias_attr=True
         )
         self.register_buffer("positional_embedding", sinusoids(n_ctx, n_state))
 
-        self.blocks: Iterable[ResidualAttentionBlock] = nn.LayerList(
+        self.blocks: Iterable[ResidualAttentionBlock] = paddle.nn.LayerList(
             [ResidualAttentionBlock(n_state, n_head) for _ in range(n_layer)]
         )
-        self.ln_post = nn.LayerNorm(n_state)
+        self.ln_post = paddle.nn.LayerNorm(n_state)
 
     def forward(self, x: paddle.Tensor):
         """
@@ -595,24 +591,24 @@ class AudioEncoder(nn.Layer):
         return x
 
 
-class TextDecoder(nn.Layer):
+class TextDecoder(paddle.nn.Layer):
     def __init__(
         self, n_vocab: int, n_ctx: int, n_state: int, n_head: int, n_layer: int
     ):
         super().__init__()
 
-        self.token_embedding = nn.Embedding(n_vocab, n_state)
+        self.token_embedding = paddle.nn.Embedding(n_vocab, n_state)
         self.positional_embedding = paddle.create_parameter(
             shape=[n_ctx, n_state], dtype="float32"
         )
 
-        self.blocks: Iterable[ResidualAttentionBlock] = nn.LayerList(
+        self.blocks: Iterable[ResidualAttentionBlock] = paddle.nn.LayerList(
             [
                 ResidualAttentionBlock(n_state, n_head, cross_attention=True)
                 for _ in range(n_layer)
             ]
         )
-        self.ln = nn.LayerNorm(n_state)
+        self.ln = paddle.nn.LayerNorm(n_state)
 
         mask = paddle.full(shape=[n_ctx, n_state], fill_value=-np.inf, dtype="float32")
         mask = paddle.triu(mask, diagonal=1)
@@ -969,7 +965,7 @@ def transcribe(
                 "text": text,
                 "tokens": result.tokens,
                 "temperature": result.temperature,
-                "avg_logprob": result.avg_logprob,
+                "avg_logprob": result.avg_logprob.tolist(),
                 "compression_ratio": result.compression_ratio,
                 "no_speech_prob": result.no_speech_prob,
             }
@@ -1184,7 +1180,9 @@ class GreedyDecoder(TokenDecoder):
         if temperature == 0:
             next_tokens = paddle.argmax(logits, axis=-1)
         else:
-            next_tokens = Categorical(logits=logits / temperature).sample([1])
+            next_tokens = paddle.distribution.Categorical(
+                logits=logits / temperature
+            ).sample([1])
             next_tokens = paddle.reshape(
                 next_tokens,
                 [
@@ -1767,7 +1765,11 @@ def decode(
     return result
 
 
-class Whisper(nn.Layer):
+class Whisper(paddle.nn.Layer):
+    """
+    The `Whisper` module use AudioEncoder and TextDecoder, and return detect_language, transcribe, decode.
+    """
+
     def __init__(self, dims: ModelDimensions):
         super().__init__()
         self.dims = dims
@@ -1834,7 +1836,7 @@ class Whisper(nn.Layer):
                 cache[module] = paddle.concat([cache[module], output], axis=1).detach()
             return cache[module]
 
-        def install_hooks(layer: nn.Layer):
+        def install_hooks(layer: paddle.nn.Layer):
             if isinstance(layer, MultiHeadAttention):
                 hooks.append(layer.key.register_forward_post_hook(save_to_cache))
                 hooks.append(layer.value.register_forward_post_hook(save_to_cache))

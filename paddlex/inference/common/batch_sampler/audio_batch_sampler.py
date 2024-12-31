@@ -26,7 +26,7 @@ from .base_batch_sampler import BaseBatchSampler
 class AudioBatchSampler(BaseBatchSampler):
     def __init__(self):
         super().__init__()
-        self.batch_size = 1
+        self.batch_size(1)
 
     # XXX: auto download for url
     def _download_from_url(self, in_path):
@@ -44,3 +44,14 @@ class AudioBatchSampler(BaseBatchSampler):
             logging.warning(
                 f"Not supported input data type! Only `str` are supported, but got: {input}."
             )
+
+    def batch_size(self, batch_size):
+        # only support batch size 1
+        if batch_size != 1:
+            raise ValueError(
+                "audio batch sampler only support batch size 1, but got {}".format(
+                    batch_size
+                )
+            )
+        else:
+            self._batch_size = batch_size
