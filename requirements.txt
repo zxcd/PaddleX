@@ -37,3 +37,4 @@ unstructured
 networkx
 faiss-cpu
 soundfile
+decord==0.6.0

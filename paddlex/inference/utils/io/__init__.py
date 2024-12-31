@@ -31,4 +31,5 @@ from .writers import (
     HtmlWriter,
     XlsxWriter,
     YAMLWriter,
+    VideoWriter,
 )
