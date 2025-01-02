@@ -14,13 +14,33 @@
 
 from paddlex import create_pipeline
 
-pipeline = create_pipeline(pipeline="PP-ChatOCRv3-doc")
+pipeline = create_pipeline(pipeline="PP-ChatOCRv4-doc")
 
-img_path = "./test_samples/vehicle_certificate-1.png"
-key_list = ["驾驶室准乘人数"]
+img_path = "./test_samples/研报2_11.jpg"
+key_list = ["三位一体养老生态系统包含哪些"]
 
 # img_path = "./test_samples/财报1.pdf"
 # key_list = ['公司全称是什么']
+
+
+def load_mllm_results():
+    """load mllm results"""
+    import json
+
+    predict_file_path = "/paddle/icode/baidu/paddlex_closed/evaluation/pipelines/ppchatocr/backend_predict_files/predict_mix_doc_v1_2B-1209.json"
+    mllm_predict_dict = {}
+    with open(predict_file_path, "r") as fin:
+        predict_infos_list = json.load(fin)
+        for predict_infos in predict_infos_list:
+            img_name = predict_infos["image_path"]
+            predict_info_list = predict_infos["predict_info_list"]
+            for predict_info in predict_info_list:
+                key = img_name + "_" + predict_info["question"]
+                mllm_predict_dict[key] = predict_info
+    return mllm_predict_dict
+
+
+mllm_predict_dict_all = load_mllm_results()
 
 visual_predict_res = pipeline.visual_predict(
     img_path,
@@ -52,6 +72,20 @@ pipeline.save_vector(vector_info, "./res_visual_info/tmp_vector_info.json")
 
 vector_info = pipeline.load_vector("./res_visual_info/tmp_vector_info.json")
 
-chat_result = pipeline.chat(key_list, visual_info_list, vector_info=vector_info)
+mllm_predict_dict = {}
+image_name = img_path.split("/")[-1]
+for key in key_list:
+    mllm_predict_key = image_name + "_" + key
+    mllm_result = ""
+    if mllm_predict_key in mllm_predict_dict_all:
+        mllm_result = mllm_predict_dict_all[mllm_predict_key]["predicts"]
+    mllm_predict_dict[key] = mllm_result
+
+chat_result = pipeline.chat(
+    key_list,
+    visual_info_list,
+    vector_info=vector_info,
+    mllm_predict_dict=mllm_predict_dict,
+)
 
 print(chat_result)

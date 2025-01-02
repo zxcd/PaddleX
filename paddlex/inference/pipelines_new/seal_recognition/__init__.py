@@ -12,16 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from paddlex import create_pipeline
-
-pipeline = create_pipeline(pipeline="table_recognition")
-
-output = pipeline("./test_samples/table_recognition.jpg")
-
-# output = pipeline("./test_samples/table_recognition.jpg",
-#     use_layout_detection=False)
-
-# output = pipeline("./test_samples/财报1.pdf")
-for res in output:
-    print(res)
-    res.save_results("./output/")
+from .pipeline import SealRecognitionPipeline
