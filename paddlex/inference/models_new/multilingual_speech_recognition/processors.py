@@ -13,24 +13,18 @@
 # limitations under the License.
 # Modified from OpenAI Whisper 2022 (https://github.com/openai/whisper/whisper)
 import os
+import tqdm
+import zlib
+import soundfile
+import numpy as np
+import lazy_paddle as paddle
+
 from dataclasses import dataclass
 from dataclasses import field
 from functools import lru_cache
-from typing import Dict
-from typing import Iterable
-from typing import List
-from typing import Optional
-from typing import Sequence
-from typing import Tuple
-from typing import Union
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple, Union
 
 from ..common.tokenizer import GPTTokenizer
-
-import numpy as np
-import lazy_paddle as paddle
-import soundfile
-import tqdm
-import zlib
 
 __all__ = [
     "Whisper",
@@ -1555,8 +1549,6 @@ class DecodingTask:
         return tuple(sorted(set(suppress_tokens)))
 
     def _get_audio_features(self, mel: paddle.Tensor):
-        # if self.options.fp16:
-        #    mel = mel.half()
 
         if mel.shape[-2:] == (
             self.model.dims.n_audio_ctx,
@@ -1566,9 +1558,6 @@ class DecodingTask:
             audio_features = mel
         else:
             audio_features = self.model.encoder(mel)
-
-        # if audio_features.dtype != (np.float16 if self.options.fp16 else np.float32):
-        #    return TypeError(f"audio_features has an incorrect dtype: {audio_features.dtype}")
 
         return audio_features
 
