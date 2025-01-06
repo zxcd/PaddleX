@@ -24,6 +24,16 @@ import yaml
 import soundfile
 import decord
 import random
+import platform
+
+from ....utils import logging
+
+if not platform.machine().startswith("arm"):
+    import decord
+else:
+    logging.warning(
+        "Please install `decord` manually on ARM machine. Otherwise, the related model cannot work."
+    )
 
 __all__ = [
     "ReaderType",
