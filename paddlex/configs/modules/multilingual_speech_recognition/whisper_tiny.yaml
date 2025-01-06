@@ -4,7 +4,6 @@ Global:
   device: gpu:0
   output: "output"
 
-
 Predict:
   batch_size: 1
   model_dir: "whisper_tiny"

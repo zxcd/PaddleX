@@ -1,13 +1,12 @@
 Global:
-  model: whisper-small
+  model: whisper_small
   mode: predict # only support predict
   device: gpu:0
   output: "output"
 
-
 Predict:
   batch_size: 1
-  model_dir: "whisper-small"
+  model_dir: "whisper_small"
   input: "https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav"
   kernel_option:
     run_mode: paddle
