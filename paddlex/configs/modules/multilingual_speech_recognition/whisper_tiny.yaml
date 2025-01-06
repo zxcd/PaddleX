@@ -1,6 +1,6 @@
 Global:
   model: whisper_tiny
-  mode: predict # check_dataset/train/evaluate/predict
+  mode: predict # only support predict
   device: gpu:0
   output: "output"
 
