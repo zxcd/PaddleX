@@ -27,18 +27,13 @@ from .processors import (
     LANGUAGES,
     TO_LANGUAGE_CODE,
 )
+from ....modules.multilingual_speech_recognition.model_list import MODELS
 from ....utils.download import download_and_extract
 
 
 class WhisperPredictor(BasicPredictor):
 
-    entities = [
-        "whisper_large",
-        "whisper_base",
-        "whisper_base",
-        "whisper_tiny",
-        "whisper_small",
-    ]
+    entities = MODELS
 
     def __init__(self, *args, **kwargs):
         """Initializes WhisperPredictor.
