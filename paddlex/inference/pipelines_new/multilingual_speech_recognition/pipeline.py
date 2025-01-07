@@ -62,16 +62,15 @@ class MultilingualSpeechRecognitionPipeline(BasePipeline):
     def predict(
         self, input: str | list[str] | np.ndarray | list[np.ndarray], **kwargs
     ) -> TopkResult:
-        """Predicts image classification results for the given input.
+        """Predicts speech recognition results for the given input.
 
         Args:
-            input (str | list[str] | np.ndarray | list[np.ndarray]): The input image(s) or path(s) to the images.
+            input (str | list[str] | np.ndarray | list[np.ndarray]): The input audio or path.
             **kwargs: Additional keyword arguments that can be passed to the function.
 
         Returns:
             TopkResult: The predicted top k results.
         """
-
         for audio_id, batch_data in enumerate(self.batch_sampler(input)):
             for topk_single_result in self.multilingual_speech_recognition_model(
                 batch_data[0]
