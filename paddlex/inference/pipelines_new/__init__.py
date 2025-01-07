@@ -25,6 +25,7 @@ from .pp_chatocr import PP_ChatOCRv3_Pipeline, PP_ChatOCRv4_Pipeline
 from .image_classification import ImageClassificationPipeline
 from .seal_recognition import SealRecognitionPipeline
 from .table_recognition import TableRecognitionPipeline
+from .multilingual_speech_recognition import MultilingualSpeechRecognitionPipeline
 
 
 def get_pipeline_path(pipeline_name: str) -> str:
