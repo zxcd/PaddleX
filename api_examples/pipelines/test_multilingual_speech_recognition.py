@@ -22,5 +22,4 @@ output = pipeline.predict("https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav
 for res in output:
     print(res)
     res.print()  ## 打印预测的结构化输出
-    res.save_to_str("./output/")  ## 保存预测结果的字符串输出
     res.save_to_json("./output/")  ## 保存预测的结构化输出

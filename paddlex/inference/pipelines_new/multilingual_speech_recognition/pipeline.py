@@ -15,7 +15,6 @@
 from typing import Any, Dict, Optional
 import numpy as np
 
-from ...common.batch_sampler import AudioBatchSampler
 from ...utils.pp_option import PaddlePredictorOption
 from ..base import BasePipeline
 from ...results import TopkResult
@@ -57,8 +56,6 @@ class MultilingualSpeechRecognitionPipeline(BasePipeline):
         # only support batch size 1
         batch_size = multilingual_speech_recognition_model_config["batch_size"]
 
-        self.batch_sampler = AudioBatchSampler()
-
     def predict(
         self, input: str | list[str] | np.ndarray | list[np.ndarray], **kwargs
     ) -> TopkResult:
@@ -71,8 +68,4 @@ class MultilingualSpeechRecognitionPipeline(BasePipeline):
         Returns:
             TopkResult: The predicted top k results.
         """
-        for audio_id, batch_data in enumerate(self.batch_sampler(input)):
-            for topk_single_result in self.multilingual_speech_recognition_model(
-                batch_data[0]
-            ):
-                yield topk_single_result
+        yield from self.multilingual_speech_recognition_model(input)
