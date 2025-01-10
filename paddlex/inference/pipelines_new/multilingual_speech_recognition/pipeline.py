@@ -17,7 +17,7 @@ import numpy as np
 
 from ...utils.pp_option import PaddlePredictorOption
 from ..base import BasePipeline
-from ...results import TopkResult
+from ...models_new.multilingual_speech_recognition.result import WhisperResult
 
 
 class MultilingualSpeechRecognitionPipeline(BasePipeline):
@@ -58,7 +58,7 @@ class MultilingualSpeechRecognitionPipeline(BasePipeline):
 
     def predict(
         self, input: str | list[str] | np.ndarray | list[np.ndarray], **kwargs
-    ) -> TopkResult:
+    ) -> WhisperResult:
         """Predicts speech recognition results for the given input.
 
         Args:
@@ -66,6 +66,6 @@ class MultilingualSpeechRecognitionPipeline(BasePipeline):
             **kwargs: Additional keyword arguments that can be passed to the function.
 
         Returns:
-            TopkResult: The predicted top k results.
+            WhisperResult: The predicted whisper results, support str and json output.
         """
         yield from self.multilingual_speech_recognition_model(input)
