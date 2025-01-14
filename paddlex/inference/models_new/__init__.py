@@ -44,6 +44,7 @@ from .anomaly_detection import UadPredictor
 # from .face_recognition import FaceRecPredictor
 from .multilingual_speech_recognition import WhisperPredictor
 from .video_classification import VideoClasPredictor
+from .video_detection import VideoDetPredictor
 
 
 def _create_hp_predictor(

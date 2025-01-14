@@ -12,6 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from paddlex import create_pipeline
 
-from .video_cls import VideoClsModel, VideoClsRunner, register
-from .video_det import VideoDetModel, VideoDetRunner, register
+pipeline = create_pipeline(pipeline="video_detection")
+output = pipeline.predict("./test_samples/HorseRiding.avi")
+
+for res in output:
+    print(res)
+    res.print()  ## 打印预测的结构化输出
+    res.save_to_video("./output/")  ## 保存结果可视化视频
+    res.save_to_json("./output/")  ## 保存预测的结构化输出
