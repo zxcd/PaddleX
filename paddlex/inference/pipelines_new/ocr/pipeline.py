@@ -380,7 +380,10 @@ class OCRPipeline(BasePipeline):
                         single_img_res["rec_texts"].append(rec_res["rec_text"])
                         single_img_res["rec_scores"].append(rec_res["rec_score"])
                         single_img_res["rec_polys"].append(dt_polys[rno])
-
-            rec_boxes = convert_points_to_boxes(single_img_res["rec_polys"])
-            single_img_res["rec_boxes"] = rec_boxes
+            if self.text_type == "general":
+                rec_boxes = convert_points_to_boxes(single_img_res["rec_polys"])
+                single_img_res["rec_boxes"] = rec_boxes
+            else:
+                single_img_res["rec_boxes"] = np.array([])
+                
             yield OCRResult(single_img_res)
