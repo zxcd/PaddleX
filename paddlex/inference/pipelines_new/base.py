@@ -89,7 +89,6 @@ class BasePipeline(ABC, metaclass=AutoRegisterABCMetaClass):
             device=self.device,
             pp_option=self.pp_option,
             use_hpip=self.use_hpip,
-            hpi_params=hpi_params,
             **kwargs,
         )
         return model

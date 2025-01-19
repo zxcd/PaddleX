@@ -315,7 +315,7 @@ class OCRPipeline(BasePipeline):
         for img_id, batch_data in enumerate(self.batch_sampler(input)):
             if not isinstance(batch_data[0], str):
                 # TODO: add support input_pth for ndarray and pdf
-                input_path = f"{img_id}"
+                input_path = f"{img_id}.jpg"
             else:
                 input_path = batch_data[0]
 
@@ -373,9 +373,24 @@ class OCRPipeline(BasePipeline):
                     angles = [-1] * len(all_subs_of_img)
                 single_img_res["textline_orientation_angles"] = angles
 
-                rno = -1
-                for rec_res in self.text_rec_model(all_subs_of_img):
-                    rno += 1
+                sub_img_info_list = [
+                    {
+                        "sub_img_id": img_id,
+                        "sub_img_ratio": sub_img.shape[1] / float(sub_img.shape[0]),
+                    }
+                    for img_id, sub_img in enumerate(all_subs_of_img)
+                ]
+                sorted_subs_info = sorted(
+                    sub_img_info_list, key=lambda x: x["sub_img_ratio"]
+                )
+                sorted_subs_of_img = [
+                    all_subs_of_img[x["sub_img_id"]] for x in sorted_subs_info
+                ]
+                for idx, rec_res in enumerate(self.text_rec_model(sorted_subs_of_img)):
+                    sub_img_id = sorted_subs_info[idx]["sub_img_id"]
+                    sub_img_info_list[sub_img_id]["rec_res"] = rec_res
+                for sno in range(len(sub_img_info_list)):
+                    rec_res = sub_img_info_list[sno]["rec_res"]
                     if rec_res["rec_score"] >= text_rec_score_thresh:
                         single_img_res["rec_texts"].append(rec_res["rec_text"])
                         single_img_res["rec_scores"].append(rec_res["rec_score"])
@@ -385,5 +400,4 @@ class OCRPipeline(BasePipeline):
                 single_img_res["rec_boxes"] = rec_boxes
             else:
                 single_img_res["rec_boxes"] = np.array([])
-                
             yield OCRResult(single_img_res)

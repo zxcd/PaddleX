@@ -249,7 +249,7 @@ class TableRecognitionPipeline(BasePipeline):
             if len(match_idx_list) > 0:
                 for idx in match_idx_list:
                     neighbor_text += overall_ocr_res["rec_texts"][idx] + "; "
-        single_table_recognition_res["neighbor_text"] = neighbor_text
+        single_table_recognition_res["neighbor_texts"] = neighbor_text
         return single_table_recognition_res
 
     def predict(

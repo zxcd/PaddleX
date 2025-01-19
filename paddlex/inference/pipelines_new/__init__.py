@@ -83,7 +83,7 @@ def load_pipeline_config(pipeline_name: str) -> Dict[str, Any]:
     Raises:
         Exception: If the config file of pipeline does not exist.
     """
-    if not Path(pipeline_name).exists():
+    if not (pipeline_name.endswith(".yml") or pipeline_name.endswith(".yaml")):
         pipeline_path = get_pipeline_path(pipeline_name)
         if pipeline_path is None:
             raise Exception(
@@ -150,6 +150,9 @@ def create_chat_bot(config: Dict, *args, **kwargs) -> BaseChat:
     Returns:
         BaseChat: An instance of the chat bot class corresponding to the 'model_name' in the config.
     """
+    if "chat_bot_config_error" in config:
+        raise ValueError(config["chat_bot_config_error"])
+
     api_type = config["api_type"]
     chat_bot = BaseChat.get(api_type)(config)
     return chat_bot
@@ -171,6 +174,8 @@ def create_retriever(
     Returns:
         BaseRetriever: An instance of a retriever class corresponding to the 'model_name' in the config.
     """
+    if "retriever_config_error" in config:
+        raise ValueError(config["retriever_config_error"])
     api_type = config["api_type"]
     retriever = BaseRetriever.get(api_type)(config)
     return retriever
@@ -192,6 +197,8 @@ def create_prompt_engeering(
     Returns:
         BaseGeneratePrompt: An instance of a prompt engineering class corresponding to the 'task_type' in the config.
     """
+    if "pe_config_error" in config:
+        raise ValueError(config["pe_config_error"])
     task_type = config["task_type"]
     pe = BaseGeneratePrompt.get(task_type)(config)
     return pe
