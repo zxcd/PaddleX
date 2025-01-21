@@ -12,7 +12,11 @@ comments: true
 ### Whisper Model
 模型 | 模型下载链接 | 训练数据 | 模型大小 | 介绍 | 词错率 |
 :-----------: | :-----:| :-------: | :-----: | :-----: |:---------:|
-Whisper | [whisper_large](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-large-model.tar.gz) </br>[whisper_medium](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-medium-model.tar.gz) </br>[whisper_small](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-small-model.tar.gz) </br>[whisper_base](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-base-model.tar.gz) </br>[whisper_tiny](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-tiny-model.tar.gz) </br> | 680kh from internet | large: 5.8G,</br>medium: 2.9G,</br>small: 923M,</br>base: 277M,</br>tiny: 145M | Encoder:Transformer,</br> Decoder:Transformer, </br>Decoding method: </br>Greedy search | 2.7 </br>(large, Librispeech) |
+whisper_large | [whisper_large](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-large-model.tar.gz) | 680kh from internet | 5.8G | Encoder:Transformer,</br> Decoder:Transformer, </br>Decoding method: </br>Greedy search | 2.7 </br>(Librispeech) |
+whisper_medium | [whisper_medium](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-medium-model.tar.gz) | 680kh from internet | 2.9G |  Encoder:Transformer,</br> Decoder:Transformer, </br>Decoding method: </br>Greedy search | - |
+whisper_small | [whisper_small](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-small-model.tar.gz) | 680kh from internet | 923M |  Encoder:Transformer,</br> Decoder:Transformer, </br>Decoding method: </br>Greedy search | - |
+whisper_base | [whisper_base](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-base-model.tar.gz) | 680kh from internet | 277M |  Encoder:Transformer,</br> Decoder:Transformer, </br>Decoding method: </br>Greedy search | - |
+whisper_tiny | [whisper_tiny](https://paddlespeech.bj.bcebos.com/whisper/whisper_model_20221122/whisper-tiny-model.tar.gz) | 680kh from internet | 145M |  Encoder:Transformer,</br> Decoder:Transformer, </br>Decoding method: </br>Greedy search | - |
 
 ## 三、快速集成
 在快速集成前，首先需要安装 PaddleX 的 wheel 包，wheel的安装方式请参考[PaddleX本地安装教程](../../../installation/installation.md)。完成 wheel 包的安装后，几行代码即可完成文本识别模块的推理，可以任意切换该模块下的模型，您也可以将文本识别的模块中的模型推理集成到您的项目中。运行以下代码前，请您下载[示例语音](https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav)到本地。
@@ -33,6 +37,16 @@ for res in output:
 - `input_path`: 输入音频存放路径
 - `text`: 语音识别结果文本
 - `segments`: 带时间戳的结果文本
+    * id: ID
+    * seek: 语音片段指针
+    * start: 片段开始时间
+    * end: 片段结束时间
+    * text: 片段识别文本
+    * token(List): 片段文本 token id
+    * temperature: 变速比例
+    * avg_logprob: 平均 log 概率
+    * compression_ratio: 压缩比
+    * no_speech_prob: 非语音概率
 - `language`: 识别语种
 
 相关方法、参数等说明如下：
