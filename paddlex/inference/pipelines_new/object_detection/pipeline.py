@@ -64,7 +64,7 @@ class ObjectDetectionPipeline(BasePipeline):
         self,
         input: Union[str, List[str], np.ndarray, List[np.ndarray]],
         threshold: Optional[Union[float, dict]] = None,
-        layout_nms: bool = False,
+        layout_nms: Optional[bool] = None,
         layout_unclip_ratio: Optional[Union[float, Tuple[float, float]]] = None,
         layout_merge_bboxes_mode: Optional[str] = None,
         **kwargs,
