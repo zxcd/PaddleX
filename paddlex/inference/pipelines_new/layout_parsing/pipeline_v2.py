@@ -102,7 +102,22 @@ class LayoutParsingPipelineV2(BasePipeline):
             "LayoutDetection",
             {"model_config_error": "config error for layout_det_model!"},
         )
-        self.layout_det_model = self.create_model(layout_det_config)
+        layout_kwargs = {}
+        if (threshold := layout_det_config.get("threshold", None)) is not None:
+            layout_kwargs["threshold"] = threshold
+        if (layout_nms := layout_det_config.get("layout_nms", None)) is not None:
+            layout_kwargs["layout_nms"] = layout_nms
+        if (
+            layout_unclip_ratio := layout_det_config.get("layout_unclip_ratio", None)
+        ) is not None:
+            layout_kwargs["layout_unclip_ratio"] = layout_unclip_ratio
+        if (
+            layout_merge_bboxes_mode := layout_det_config.get(
+                "layout_merge_bboxes_mode", None
+            )
+        ) is not None:
+            layout_kwargs["layout_merge_bboxes_mode"] = layout_merge_bboxes_mode
+        self.layout_det_model = self.create_model(layout_det_config, **layout_kwargs)
 
         if self.use_general_ocr or self.use_table_recognition:
             general_ocr_config = config.get("SubPipelines", {}).get(
@@ -400,6 +415,7 @@ class LayoutParsingPipelineV2(BasePipeline):
                         use_ocr_model=False,
                         overall_ocr_res=overall_ocr_res,
                         layout_det_res=layout_det_res,
+                        cell_sort_by_y_projection=True,
                     ),
                 )
                 table_res_list = table_res_all["table_res_list"]
