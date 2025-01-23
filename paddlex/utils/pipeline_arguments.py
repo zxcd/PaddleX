@@ -111,7 +111,43 @@ PIPELINE_ARGUMENTS = {
     "ts_forecast": None,
     "ts_anomaly_detection": None,
     "ts_classification": None,
-    "formula_recognition": None,
+    "formula_recognition": [
+        {
+            "name": "--use_layout_detection",
+            "type": bool,
+            "help": "Determines whether to use layout detection",
+        },
+        {
+            "name": "--use_doc_orientation_classify",
+            "type": bool,
+            "help": "Determines whether to use document orientation classification",
+        },
+        {
+            "name": "--use_doc_unwarping",
+            "type": bool,
+            "help": "Determines whether to use document unwarping",
+        },
+        {
+            "name": "--layout_threshold",
+            "type": float,
+            "help": "Sets the layout threshold for layout detection.",
+        },
+        {
+            "name": "--layout_nms",
+            "type": bool,
+            "help": "Determines whether to use layout nms",
+        },
+        {
+            "name": "--layout_unclip_ratio",
+            "type": float,
+            "help": "Sets the layout unclip ratio for layout detection.",
+        },
+        {
+            "name": "--layout_merge_bboxes_mode",
+            "type": str,
+            "help": "Sets the layout merge bboxes mode for layout detection.",
+        },
+    ],
     "instance_segmentation": None,
     "semantic_segmentation": None,
     "small_object_detection": None,
@@ -135,17 +171,16 @@ PIPELINE_ARGUMENTS = {
             "help": "Sets the confidence threshold for video detection.",
         },
     ],
-    "doc_preprocessor":[
+    "doc_preprocessor": [
         {
             "name": "--use_doc_orientation_classify",
             "type": bool,
             "help": "Determines whether to use document orientation classification.",
-        },  
+        },
         {
             "name": "--use_doc_unwarping",
             "type": bool,
             "help": "Determines whether to use document unwarping.",
         },
-    ]
-
+    ],
 }
