@@ -146,8 +146,8 @@ for res in output:
 </thead>
 <tr>
 <td><code>input</code></td>
-<td>待预测数据，支持多种输入类型，必填</td>
-<td><code>Python Var|str|list</code></td>
+<td>待预测数据</td>
+<td><code>str</code></td>
 <td>
 <ul>
   <li><b>文件路径</b>，如语音文件的本地路径：<code>/root/data/audio.wav</code></li>
