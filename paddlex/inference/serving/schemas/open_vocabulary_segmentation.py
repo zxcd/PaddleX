@@ -17,34 +17,33 @@ from typing import Final, List, Optional
 from pydantic import BaseModel
 
 from ..infra.models import PrimaryOperations
-from .shared import image_segmentation, object_detection
+from .shared import image_segmentation
 
 __all__ = [
     "INFER_ENDPOINT",
     "InferRequest",
-    "Instance",
+    "MaskInfo",
     "InferResult",
     "PRIMARY_OPERATIONS",
 ]
 
-INFER_ENDPOINT: Final[str] = "/instance-segmentation"
+INFER_ENDPOINT: Final[str] = "/open-vocabulary-segmentation"
 
 
 class InferRequest(BaseModel):
     image: str
-    threshold: Optional[float] = None
+    prompt: List[List[float]]
+    promptType: str
 
 
-class Instance(BaseModel):
-    bbox: object_detection.BoundingBox
-    categoryId: int
-    categoryName: str
-    score: float
-    mask: image_segmentation.Mask
+class MaskInfo(BaseModel):
+    label: str
+    prompt: List[float]
 
 
 class InferResult(BaseModel):
-    instances: List[Instance]
+    masks: List[image_segmentation.Mask]
+    maskInfos: List[MaskInfo]
     image: Optional[str] = None
 
 

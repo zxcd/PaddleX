@@ -12,39 +12,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Final, List, Optional
+from typing import Dict, Final, List, Optional, Union
 
 from pydantic import BaseModel
 
 from ..infra.models import PrimaryOperations
-from .shared import image_segmentation, object_detection
+from .shared import object_detection
 
 __all__ = [
     "INFER_ENDPOINT",
     "InferRequest",
-    "Instance",
+    "DetectedObject",
     "InferResult",
     "PRIMARY_OPERATIONS",
 ]
 
-INFER_ENDPOINT: Final[str] = "/instance-segmentation"
+INFER_ENDPOINT: Final[str] = "/open-vocabulary-detection"
 
 
 class InferRequest(BaseModel):
     image: str
-    threshold: Optional[float] = None
+    prompt: str
+    thresholds: Optional[Dict[str, float]] = None
 
 
-class Instance(BaseModel):
+class DetectedObject(BaseModel):
     bbox: object_detection.BoundingBox
-    categoryId: int
     categoryName: str
     score: float
-    mask: image_segmentation.Mask
 
 
 class InferResult(BaseModel):
-    instances: List[Instance]
+    detectedObjects: List[DetectedObject]
     image: Optional[str] = None
 
 
