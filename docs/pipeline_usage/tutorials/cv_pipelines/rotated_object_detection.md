@@ -2,66 +2,51 @@
 comments: true
 ---
 
-# 小目标检测产线使用教程
+# 旋转目标检测产线使用教程
 
-## 1. 小目标检测产线介绍
-小目标检测是一种专门识别图像中体积较小物体的技术，广泛应用于监控、无人驾驶和卫星图像分析等领域。它能够从复杂场景中准确找到并分类像行人、交通标志或小动物等小尺寸物体。通过使用深度学习算法和优化的卷积神经网络，小目标检测可以有效提升对小物体的识别能力，确保在实际应用中不遗漏重要信息。这项技术在提高安全性和自动化水平方面发挥着重要作用。本产线同时提供了灵活的服务化部署方式，支持在多种硬件上使用多种编程语言调用。不仅如此，本产线也提供了二次开发的能力，您可以基于本产线在您自己的数据集上训练调优，训练后的模型也可以无缝集成。
+## 1. 旋转目标检测产线介绍
+旋转目标检测是目标检测模块中的一种衍生，它专门针对旋转目标进行检测。旋转框（Rotated Bounding Boxes）常用于检测带有角度信息的矩形框，即矩形框的宽和高不再与图像坐标轴平行。相较于水平矩形框，旋转矩形框一般包括更少的背景信息。旋转目标检测在遥感等场景中有重要的应用。本产线同时提供了灵活的服务化部署方式，支持在多种硬件上使用多种编程语言调用。不仅如此，本产线也提供了二次开发的能力，您可以基于本产线在您自己的数据集上训练调优，训练后的模型也可以无缝集成。
 
-<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/main/images/pipelines/small_object_detection/01.png">
+<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/refs/heads/main/images/modules/rotated_object_detection/rotated_object_detection_001_res.png">
 
-<b>通用小目标检测产线中包含了小目标检测模块，该模块都包含多个模型，您可以根据下方的基准测试数据选择使用的模型</b>。
+<b>旋转目标检测产线中包含了旋转目标检测模块，该模块都包含多个模型，您可以根据下方的基准测试数据选择使用的模型</b>。
 
 <b>如果您更注重模型的精度，请选择精度较高的模型；如果您更在意模型的推理速度，请选择推理速度较快的模型；如果您关注模型的存储大小，请选择存储体积较小的模型。</b>
 
-<p><b>通用图像小目标检测模块（可选）：</b></p>
+<p><b>图像旋转目标检测模块（可选）：</b></p>
 
 <table>
-<thead>
 <tr>
 <th>模型</th><th>模型下载链接</th>
-<th>mAP（%）</th>
-<th>GPU推理耗时（ms）</th>
-<th>CPU推理耗时（ms）</th>
-<th>模型存储大小（M)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PP-YOLOE_plus_SOD-S</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE_plus_SOD-S_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-S_pretrained.pdparams">训练模型</a></td>
-<td>25.1</td>
-<td>65.4608</td>
-<td>324.37</td>
-<td>77.3 M</td>
+<th>mAP(%)</th>
+<th>GPU推理耗时 (ms)</th>
+<th>CPU推理耗时 (ms)</th>
+<th>模型存储大小 (M)</th>
+<th>介绍</th>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE_plus_SOD-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-L_pretrained.pdparams">训练模型</a></td>
-<td>31.9</td>
-<td>57.1448</td>
-<td>1006.98</td>
-<td>325.0 M</td>
+<td>PP-YOLOE-R-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE-R-L_infer.tar">推理模型</a>/<a href="https://paddledet.bj.bcebos.com/models/ppyoloe_r_crn_l_3x_dota.pdparams">训练模型</a></td>
+<td>78.14</td>
+<td>20.7039</td>
+<td>157.942</td>
+<td>211.0 M</td>
+<td rowspan="1">PP-YOLOE-R是一个高效的单阶段Anchor-free旋转框检测模型。基于PP-YOLOE, PP-YOLOE-R以极少的参数量和计算量为代价，引入了一系列有用的设计来提升检测精度。</td>
 </tr>
-<tr>
-<td>PP-YOLOE_plus_SOD-largesize-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE_plus_SOD-largesize-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-largesize-L_pretrained.pdparams">训练模型</a></td>
-<td>42.7</td>
-<td>458.521</td>
-<td>11172.7</td>
-<td>340.5 M</td>
-</tr>
-</tbody>
 </table>
-<p><b>注：以上精度指标为 </b><a href="https://github.com/VisDrone/VisDrone-Dataset">VisDrone-DET</a><b> 验证集 mAP(0.5:0.95)。以上所有模型 GPU 推理耗时基于 NVIDIA Tesla T4 机器，精度类型为 FP32， CPU 推理速度基于 Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，线程数为8，精度类型为 FP32。</b></p>
+
+<p><b>注：以上精度指标为<a href="https://captain-whu.github.io/DOTA/">DOTA</a>验证集 mAP(0.5:0.95)。所有模型 GPU 推理耗时基于 NVIDIA TRX2080 Ti 机器，精度类型为 F16， CPU 推理速度基于 Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，线程数为8，精度类型为 FP32。</b></p>
 
 ## 2. 快速开始
 
 ### 2.1 本地体验
-> ❗ 在本地使用通用小目标检测产线前，请确保您已经按照[PaddleX本地安装教程](../../../installation/installation.md)完成了PaddleX的wheel包安装。
+> ❗ 在本地使用旋转目标检测产线前，请确保您已经按照[PaddleX本地安装教程](../../../installation/installation.md)完成了PaddleX的wheel包安装。
 
 #### 2.1.1 命令行方式体验
-* 一行命令即可快速体验小目标检测产线效果，使用 [测试文件](https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/small_object_detection.jpg)，并将 `--input` 替换为本地路径，进行预测
+* 一行命令即可快速体验旋转目标检测产线效果，使用 [测试文件](https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/rotated_object_detection_001.png)，并将 `--input` 替换为本地路径，进行预测
 
 ```bash
-paddlex --pipeline small_object_detection \
-        --input small_object_detection.jpg \
+paddlex --pipeline rotated_object_detection \
+        --input rotated_object_detection_001.png \
         --threshold 0.5 \
         --save_path ./output \
         --device gpu:0 \
@@ -70,20 +55,21 @@ paddlex --pipeline small_object_detection \
 
 运行后，会将结果打印到终端上，结果如下：
 ```bash
-{'res': {'input_path': 'small_object_detection.jpg', 'page_index': None, 'boxes': [{'cls_id': 0, 'label': 'pedestrian', 'score': 0.8182944655418396, 'coordinate': [203.60147, 701.3809, 224.2007, 743.8429]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.8150849342346191, 'coordinate': [185.01398, 710.8665, 201.76335, 744.9308]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.7748839259147644, 'coordinate': [295.1978, 500.2161, 309.33438, 532.0253]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.7688254714012146, 'coordinate': [851.5233, 436.13293, 863.2146, 466.8981]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.689735472202301, 'coordinate': [802.1584, 460.10693, 815.6586, 488.85086]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.6697502136230469, 'coordinate': [479.947, 309.43323, 489.1534, 332.5485]}, ...]}}
+{'res': {'input_path': 'rotated_object_detection_001.png', 'page_index': None, 'boxes': [{'cls_id': 4, 'label': 'small-vehicle', 'score': 0.7409099340438843, 'coordinate': [92.88687, 763.1569, 85.163124, 749.5868, 116.07975, 731.99414, 123.8035, 745.5643]}, {'cls_id': 4, 'label': 'small-vehicle', 'score': 0.7393015623092651, 'coordinate': [348.2332, 177.55974, 332.77704, 150.24973, 345.2183, 143.21028, 360.67444, 170.5203]}, {'cls_id': 11, 'label': 'roundabout', 'score': 0.8101699948310852, 'coordinate': [537.1732, 695.5475, 204.4297, 612.9735, 286.71338, 281.48022, 619.4569, 364.05426]}]}}
 ```
 运行结果参数说明可以参考[2.2.2 Python脚本方式集成](#222-python脚本方式集成)中的结果解释。
 
-可视化结果保存在`save_path`下，其中小目标检测的可视化结果如下：
-<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/main/images/pipelines/small_object_detection/02.png">
+可视化结果保存在`save_path`下，其中旋转目标检测的可视化结果如下：
+
+<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/refs/heads/main/images/modules/rotated_object_detection/rotated_object_detection_001_res.png">
 
 #### 2.1.2 Python脚本方式集成
 * 上述命令行是为了快速体验查看效果，一般来说，在项目中，往往需要通过代码集成，您可以通过几行代码即可完成产线的快速推理，推理代码如下：
 
 ```python
 from paddlex import create_pipeline
-pipeline = create_pipeline(pipeline_name="small_object_detection")
-output = pipeline.predict(input="small_object_detection.jpg", threshold=0.5)
+pipeline = create_pipeline(pipeline_name="rotated_object_detection")
+output = pipeline.predict(input="rotated_object_detection_001.png", threshold=0.5)
 for res in output:
     res.print()
     res.save_to_img(save_path="./output/")
@@ -92,7 +78,7 @@ for res in output:
 
 在上述 Python 脚本中，执行了如下几个步骤：
 
-（1）通过 `create_pipeline()` 实例化 小目标检测 产线对象，具体参数说明如下：
+（1）通过 `create_pipeline()` 实例化 旋转目标检测 产线对象，具体参数说明如下：
 
 <table>
 <thead>
@@ -131,7 +117,7 @@ for res in output:
 </tbody>
 </table>
 
-（2）调用 小目标检测 产线对象的 `predict()` 方法进行推理预测。该方法将返回一个 `generator`。以下是 `predict()` 方法的参数及其说明：
+（2）调用 旋转目标检测 产线对象的 `predict()` 方法进行推理预测。该方法将返回一个 `generator`。以下是 `predict()` 方法的参数及其说明：
 
 <table>
 <thead>
@@ -150,7 +136,7 @@ for res in output:
 <td>
 <ul>
   <li><b>Python Var</b>：如 <code>numpy.ndarray</code> 表示的图像数据</li>
-  <li><b>str</b>：如图像文件或者PDF文件的本地路径：<code>/root/data/img.jpg</code>；<b>如URL链接</b>，如图像文件或PDF文件的网络URL：<a href = "https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/small_object_detection.jpg">示例</a>；<b>如本地目录</b>，该目录下需包含待预测图像，如本地路径：<code>/root/data/</code>(当前不支持目录中包含PDF文件的预测，PDF文件需要指定到具体文件路径)</li>
+  <li><b>str</b>：如图像文件或者PDF文件的本地路径：<code>/root/data/img.jpg</code>；<b>如URL链接</b>，如图像文件或PDF文件的网络URL：<a href = "https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/rotated_object_detection_001.png">示例</a>；<b>如本地目录</b>，该目录下需包含待预测图像，如本地路径：<code>/root/data/</code>(当前不支持目录中包含PDF文件的预测，PDF文件需要指定到具体文件路径)</li>
   <li><b>List</b>：列表元素需为上述类型数据，如<code>[numpy.ndarray, numpy.ndarray]</code>，<code>[\"/root/data/img1.jpg\", \"/root/data/img2.jpg\"]</code>，<code>[\"/root/data1\", \"/root/data2\"]</code></li>
 </ul>
 </td>
@@ -262,7 +248,7 @@ for res in output:
       - `cls_id`: `(int)` 类别ID
       - `label`: `(str)` 类别名称
       - `score`: `(float)` 置信度
-      - `coordinates`: `(list)` 检测框坐标，格式为`[xmin, ymin, xmax, ymax]`
+      - `coordinates`: `(list)` 检测框坐标，格式为`[x1, y1, x2, y2, x3, y3, x4, y4]`
 
 - 调用`save_to_json()` 方法会将上述内容保存到指定的`save_path`中，如果指定为目录，则保存的路径为`save_path/{your_img_basename}_res.json`，如果指定为文件，则直接保存到该文件中。由于json文件不支持保存numpy数组，因此会将其中的`numpy.array`类型转换为列表形式。
 
@@ -288,23 +274,23 @@ for res in output:
 </table>
 
 - `json` 属性获取的预测结果为dict类型的数据，相关内容与调用 `save_to_json()` 方法保存的内容一致。
-- `img` 属性返回的预测结果是一个字典类型的数据。其中，键为 `res`, 对应的值是一个 `Image.Image` 对象：一个用于显示 小目标检测 的预测结果。
+- `img` 属性返回的预测结果是一个字典类型的数据。其中，键为 `res`, 对应的值是一个 `Image.Image` 对象：一个用于显示 旋转目标检测 的预测结果。
 
-此外，您可以获取 小目标检测 产线配置文件，并加载配置文件进行预测。可执行如下命令将结果保存在 `my_path` 中：
+此外，您可以获取 旋转目标检测 产线配置文件，并加载配置文件进行预测。可执行如下命令将结果保存在 `my_path` 中：
 
 ```
-paddlex --get_pipeline_config small_object_detection --save_path ./my_path
+paddlex --get_pipeline_config rotated_object_detection --save_path ./my_path
 ```
 
-若您获取了配置文件，即可对小目标检测产线各项配置进行自定义，只需要修改 `create_pipeline` 方法中的 `pipeline` 参数值为产线配置文件路径即可。示例如下：
+若您获取了配置文件，即可对旋转目标检测产线各项配置进行自定义，只需要修改 `create_pipeline` 方法中的 `pipeline` 参数值为产线配置文件路径即可。示例如下：
 
 ```python
 from paddlex import create_pipeline
 
-pipeline = create_pipeline(pipeline="./my_path/small_object_detection.yaml")
+pipeline = create_pipeline(pipeline="./my_path/rotated_object_detection.yaml")
 
 output = pipeline.predict(
-    input="./small_object_detection.jpg",
+    input="./rotated_object_detection_001.png",
     threshold=0.5,
 )
 for res in output:
@@ -314,7 +300,7 @@ for res in output:
 
 ```
 
-<b>注：</b> 配置文件中的参数为产线初始化参数，如果希望更改通用小目标检测产线初始化参数，可以直接修改配置文件中的参数，并加载配置文件进行预测。同时，CLI 预测也支持传入配置文件，`--pipeline` 指定配置文件的路径即可。
+<b>注：</b> 配置文件中的参数为产线初始化参数，如果希望更改旋转目标检测产线初始化参数，可以直接修改配置文件中的参数，并加载配置文件进行预测。同时，CLI 预测也支持传入配置文件，`--pipeline` 指定配置文件的路径即可。
 
 ## 3. 开发集成/部署
 如果产线可以达到您对产线推理速度和精度的要求，您可以直接进行开发集成/部署。
@@ -402,7 +388,7 @@ for res in output:
 <li><b><code>infer</code></b></li>
 </ul>
 <p>对图像进行目标检测。</p>
-<p><code>POST /small-object-detection</code></p>
+<p><code>POST /rotated-object-detection</code></p>
 <ul>
 <li>请求体的属性如下：</li>
 </ul>
@@ -480,20 +466,28 @@ for res in output:
 &quot;detectedObjects&quot;: [
 {
 &quot;bbox&quot;: [
-404.4967956542969,
-90.15770721435547,
-506.2465515136719,
-285.4187316894531
+92.88687133789062,
+763.1569213867188,
+85.16312408447266,
+749.5867919921875,
+116.07975006103516,
+731.994140625,
+123.80349731445312,
+745.5642700195312
 ],
 &quot;categoryId&quot;: 0,
 &quot;score&quot;: 0.7418514490127563
 },
 {
 &quot;bbox&quot;: [
-155.33145141601562,
-81.10954284667969,
-199.71136474609375,
-167.4235382080078
+348.2331848144531,
+177.5597381591797,
+332.77703857421875,
+150.24972534179688,
+345.2182922363281,
+143.2102813720703,
+360.6744384765625,
+170.52029418945312
 ],
 &quot;categoryId&quot;: 1,
 &quot;score&quot;: 0.7328268885612488
@@ -509,31 +503,32 @@ for res in output:
 <summary>Python</summary>
 
 
-<pre><code class="language-python">import base64
+<pre><code class="language-python">
+import base64
 import requests
 
-API_URL = &quot;http://localhost:8080/small-object-detection&quot; # 服务URL
-image_path = &quot;./demo.jpg&quot;
-output_image_path = &quot;./out.jpg&quot;
+API_URL = "http://localhost:8080/rotated-object-detection" # 服务URL
+image_path = "./demo.jpg"
+output_image_path = "./out.jpg"
 
 # 对本地图像进行Base64编码
-with open(image_path, &quot;rb&quot;) as file:
+with open(image_path, "rb") as file:
     image_bytes = file.read()
-    image_data = base64.b64encode(image_bytes).decode(&quot;ascii&quot;)
+    image_data = base64.b64encode(image_bytes).decode("ascii")
 
-payload = {&quot;image&quot;: image_data}  # Base64编码的文件内容或者图像URL
+payload = {"image": image_data}  # Base64编码的文件内容或者图像URL
 
 # 调用API
 response = requests.post(API_URL, json=payload)
 
 # 处理接口返回数据
 assert response.status_code == 200
-result = response.json()[&quot;result&quot;]
-with open(output_image_path, &quot;wb&quot;) as file:
-    file.write(base64.b64decode(result[&quot;image&quot;]))
-print(f&quot;Output image saved at {output_image_path}&quot;)
-print(&quot;\nDetected objects:&quot;)
-print(result[&quot;detectedObjects&quot;])
+result = response.json()["result"]
+with open(output_image_path, "wb") as file:
+    file.write(base64.b64decode(result["image"]))
+print(f"Output image saved at {output_image_path}")
+print("\nDetected objects:")
+print(result["detectedObjects"])
 </code></pre></details>
 
 <details><summary>C++</summary>
@@ -872,10 +867,10 @@ print_r($result[&quot;detectedObjects&quot;]);
 
 
 ## 4. 二次开发
-如果通用小目标检测产线提供的默认模型权重在您的场景中，精度或速度不满意，您可以尝试利用<b>您自己拥有的特定领域或应用场景的数据</b>对现有模型进行进一步的<b>微调</b>，以提升小目标检测产线的在您的场景中的识别效果。
+如果旋转目标检测产线提供的默认模型权重在您的场景中，精度或速度不满意，您可以尝试利用<b>您自己拥有的特定领域或应用场景的数据</b>对现有模型进行进一步的<b>微调</b>，以提升旋转目标检测产线的在您的场景中的识别效果。
 
 ### 4.1 模型微调
-由于通用小目标检测产线包含小目标检测模块，如果模型产线的效果不及预期，您可以对分割效果差的图片进行分析，并参考以下表格中对应的微调教程链接进行模型微调。
+由于旋转目标检测产线包含旋转目标检测模块，如果模型产线的效果不及预期，您可以对分割效果差的图片进行分析，并参考以下表格中对应的微调教程链接进行模型微调。
 
 
 <table>
@@ -889,8 +884,8 @@ print_r($result[&quot;detectedObjects&quot;]);
   <tbody>
     <tr>
       <td>预测结果不达预期</td>
-      <td>小目标检测模块</td>
-      <td><a href="../../../module_usage/tutorials/cv_modules/small_object_detection.md">链接</a></td>
+      <td>旋转目标检测模块</td>
+      <td><a href="../../../module_usage/tutorials/cv_modules/rotated_object_detection.md">链接</a></td>
     </tr>
   </tbody>
 </table>
@@ -902,10 +897,10 @@ print_r($result[&quot;detectedObjects&quot;]);
 
 ```yaml
 SubModules:
-  SmallObjectDetection:
-    module_name: small_object_detection
-    model_name: PP-YOLOE_plus_SOD-L
-    model_dir: null # 替换为微调后的小目标检测模型权重路径
+  RotatedObjectDetection:
+    module_name: rotated_object_detection
+    model_name: PP-YOLOE-R-L
+    model_dir: null # 替换为微调后的旋转目标检测模型权重路径
     batch_size: 1
     threshold: 0.5
 ```
@@ -914,13 +909,13 @@ SubModules:
 ## 5. 多硬件支持
 PaddleX 支持英伟达 GPU、昆仑芯 XPU、昇腾 NPU和寒武纪 MLU 等多种主流硬件设备，<b>仅需修改 `--device`参数</b>即可完成不同硬件之间的无缝切换。
 
-例如，您使用昇腾 NPU 进行 小目标检测 产线的推理，使用的 Python 命令为：
+例如，您使用昇腾 NPU 进行 旋转目标检测 产线的推理，使用的 Python 命令为：
 
 ```bash
-paddlex --pipeline small_object_detection \
-        --input small_object_detection.jpg \
+paddlex --pipeline rotated_object_detection \
+        --input rotated_object_detection_001.png \
         --threshold 0.5 \
         --save_path ./output \
         --device npu:0
 ```
-若您想在更多种类的硬件上使用通用小目标检测产线，请参考[PaddleX多硬件使用指南](../../../other_devices_support/multi_devices_use_guide.md)。
+若您想在更多种类的硬件上使用旋转目标检测产线，请参考[PaddleX多硬件使用指南](../../../other_devices_support/multi_devices_use_guide.md)。

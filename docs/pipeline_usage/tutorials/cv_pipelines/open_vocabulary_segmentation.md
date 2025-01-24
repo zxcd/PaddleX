@@ -2,88 +2,79 @@
 comments: true
 ---
 
-# 小目标检测产线使用教程
+# 开放词汇分割产线使用教程
 
-## 1. 小目标检测产线介绍
-小目标检测是一种专门识别图像中体积较小物体的技术，广泛应用于监控、无人驾驶和卫星图像分析等领域。它能够从复杂场景中准确找到并分类像行人、交通标志或小动物等小尺寸物体。通过使用深度学习算法和优化的卷积神经网络，小目标检测可以有效提升对小物体的识别能力，确保在实际应用中不遗漏重要信息。这项技术在提高安全性和自动化水平方面发挥着重要作用。本产线同时提供了灵活的服务化部署方式，支持在多种硬件上使用多种编程语言调用。不仅如此，本产线也提供了二次开发的能力，您可以基于本产线在您自己的数据集上训练调优，训练后的模型也可以无缝集成。
+## 1. 开放词汇分割产线介绍
+开放词汇分割是一项图像分割任务，旨在根据文本描述、边框、关键点等除图像以外的信息作为提示，分割图像中对应的物体。它允许模型处理广泛的对象类别，而无需预定义的类别列表。这项技术结合了视觉和多模态技术，极大地提高了图像处理的灵活性和精度。开放词汇分割在计算机视觉领域具有重要应用价值，尤其在复杂场景下的对象分割任务中表现突出。本产线同时提供了灵活的服务化部署方式，支持在多种硬件上使用多种编程语言调用。本产线目前不支持对模型的二次开发，计划在后续支持。
 
-<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/main/images/pipelines/small_object_detection/01.png">
+<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/refs/heads/main/images/modules/open_vocabulary_segmentation/open_vocabulary_segmentation_res.jpg">
 
-<b>通用小目标检测产线中包含了小目标检测模块，该模块都包含多个模型，您可以根据下方的基准测试数据选择使用的模型</b>。
+<b>通用开放词汇分割产线中包含了开放词汇分割模块，您可以根据下方的基准测试数据选择使用的模型</b>。
 
 <b>如果您更注重模型的精度，请选择精度较高的模型；如果您更在意模型的推理速度，请选择推理速度较快的模型；如果您关注模型的存储大小，请选择存储体积较小的模型。</b>
 
-<p><b>通用图像小目标检测模块（可选）：</b></p>
+<p><b>通用图像开放词汇分割模块（可选）：</b></p>
 
 <table>
-<thead>
 <tr>
 <th>模型</th><th>模型下载链接</th>
-<th>mAP（%）</th>
 <th>GPU推理耗时（ms）</th>
-<th>CPU推理耗时（ms）</th>
-<th>模型存储大小（M)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PP-YOLOE_plus_SOD-S</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE_plus_SOD-S_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-S_pretrained.pdparams">训练模型</a></td>
-<td>25.1</td>
-<td>65.4608</td>
-<td>324.37</td>
-<td>77.3 M</td>
+<th>CPU推理耗时 (ms)</th>
+<th>模型存储大小（M）</th>
+<th>介绍</th>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE_plus_SOD-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-L_pretrained.pdparams">训练模型</a></td>
-<td>31.9</td>
-<td>57.1448</td>
-<td>1006.98</td>
-<td>325.0 M</td>
+<td>SAM-H_box</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/SAM-H_box_infer.tar">推理模型</a></td>
+<td>144.9</td>
+<td>33920.7</td>
+<td>2433.7</td>
+<td rowspan="2">SAM（Segment Anything Model）是一种先进的图像分割模型，能够根据用户提供的简单提示（如点、框或文本）对图像中的任意对象进行分割。基于SA-1B数据集训练，有一千万的图像数据和十一亿掩码标注，在大部分场景均有较好的效果。其中SAM-H_box表示使用框作为分割提示输入，SAM会分割被框包裹主的主体；SAM-H_point表示使用点作为分割提示输入，SAM会分割点所在的主体。</td>
 </tr>
 <tr>
-<td>PP-YOLOE_plus_SOD-largesize-L</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0rc0/PP-YOLOE_plus_SOD-largesize-L_infer.tar">推理模型</a>/<a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_pretrained_model/PP-YOLOE_plus_SOD-largesize-L_pretrained.pdparams">训练模型</a></td>
-<td>42.7</td>
-<td>458.521</td>
-<td>11172.7</td>
-<td>340.5 M</td>
+<td>SAM-H_point</td><td><a href="https://paddle-model-ecology.bj.bcebos.com/paddlex/official_inference_model/paddle3.0b2/SAM-H_point_infer.tar">推理模型</a></td>
+<td>144.9</td>
+<td>33920.7</td>
+<td>2433.7</td>
 </tr>
-</tbody>
 </table>
-<p><b>注：以上精度指标为 </b><a href="https://github.com/VisDrone/VisDrone-Dataset">VisDrone-DET</a><b> 验证集 mAP(0.5:0.95)。以上所有模型 GPU 推理耗时基于 NVIDIA Tesla T4 机器，精度类型为 FP32， CPU 推理速度基于 Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，线程数为8，精度类型为 FP32。</b></p>
+
+<b>注：所有模型 GPU 推理耗时基于 NVIDIA Tesla T4 机器，精度类型为 FP32， CPU 推理速度基于 Intel(R) Xeon(R) Gold 5117 CPU @ 2.00GHz，线程数为8，精度类型为 FP32</b>。
 
 ## 2. 快速开始
 
 ### 2.1 本地体验
-> ❗ 在本地使用通用小目标检测产线前，请确保您已经按照[PaddleX本地安装教程](../../../installation/installation.md)完成了PaddleX的wheel包安装。
+> ❗ 在本地使用通用开放词汇分割产线前，请确保您已经按照[PaddleX本地安装教程](../../../installation/installation.md)完成了PaddleX的wheel包安装。
 
 #### 2.1.1 命令行方式体验
-* 一行命令即可快速体验小目标检测产线效果，使用 [测试文件](https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/small_object_detection.jpg)，并将 `--input` 替换为本地路径，进行预测
+* 一行命令即可快速体验开放词汇分割产线效果，使用 [测试文件](https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/open_vocabulary_segmentation.jpg)，并将 `--input` 替换为本地路径，进行预测
 
 ```bash
-paddlex --pipeline small_object_detection \
-        --input small_object_detection.jpg \
-        --threshold 0.5 \
+paddlex --pipeline open_vocabulary_segmentation \
+        --input open_vocabulary_segmentation.jpg \
+        --prompt_type box \
+        --prompt "[[112.9,118.4,513.8,382.1],[4.6,263.6,92.2,336.6],[592.4,260.9,607.2,294.2]]" \
         --save_path ./output \
-        --device gpu:0 \
+        --device gpu:0
 ```
-相关的参数说明可以参考[2.2.2 Python脚本方式集成](#222-python脚本方式集成)中的参数说明。
+相关的参数说明可以参考[2.1.2 Python脚本方式集成](#212-python脚本方式集成)中的参数说明。
 
 运行后，会将结果打印到终端上，结果如下：
 ```bash
-{'res': {'input_path': 'small_object_detection.jpg', 'page_index': None, 'boxes': [{'cls_id': 0, 'label': 'pedestrian', 'score': 0.8182944655418396, 'coordinate': [203.60147, 701.3809, 224.2007, 743.8429]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.8150849342346191, 'coordinate': [185.01398, 710.8665, 201.76335, 744.9308]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.7748839259147644, 'coordinate': [295.1978, 500.2161, 309.33438, 532.0253]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.7688254714012146, 'coordinate': [851.5233, 436.13293, 863.2146, 466.8981]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.689735472202301, 'coordinate': [802.1584, 460.10693, 815.6586, 488.85086]}, {'cls_id': 0, 'label': 'pedestrian', 'score': 0.6697502136230469, 'coordinate': [479.947, 309.43323, 489.1534, 332.5485]}, ...]}}
+{'res': {'input_path': 'open_vocabulary_segmentation.jpg', 'prompts': {'box_prompt': [[112.9, 118.4, 513.8, 382.1], [4.6, 263.6, 92.2, 336.6], [592.4, 260.9, 607.2, 294.2]]}, 'masks': '...', 'mask_infos': [{'label': 'box_prompt', 'prompt': [112.9, 118.4, 513.8, 382.1]}, {'label': 'box_prompt', 'prompt': [4.6, 263.6, 92.2, 336.6]}, {'label': 'box_prompt', 'prompt': [592.4, 260.9, 607.2, 294.2]}]}}
 ```
-运行结果参数说明可以参考[2.2.2 Python脚本方式集成](#222-python脚本方式集成)中的结果解释。
+运行结果参数说明可以参考[2.1.2 Python脚本方式集成](#212-python脚本方式集成)中的结果解释。
 
-可视化结果保存在`save_path`下，其中小目标检测的可视化结果如下：
-<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/main/images/pipelines/small_object_detection/02.png">
+可视化结果保存在`save_path`下，其中开放词汇分割的可视化结果如下：
+
+<img src="https://raw.githubusercontent.com/cuicheng01/PaddleX_doc_images/refs/heads/main/images/modules/open_vocabulary_segmentation/open_vocabulary_segmentation_res.jpg">
 
 #### 2.1.2 Python脚本方式集成
 * 上述命令行是为了快速体验查看效果，一般来说，在项目中，往往需要通过代码集成，您可以通过几行代码即可完成产线的快速推理，推理代码如下：
 
 ```python
 from paddlex import create_pipeline
-pipeline = create_pipeline(pipeline_name="small_object_detection")
-output = pipeline.predict(input="small_object_detection.jpg", threshold=0.5)
+pipeline = create_pipeline(pipeline_name="open_vocabulary_segmentation")
+output = pipeline.predict(input="open_vocabulary_segmentation.jpg", prompt_type="box", prompt=[[112.9,118.4,513.8,382.1],[4.6,263.6,92.2,336.6],[592.4,260.9,607.2,294.2]])
 for res in output:
     res.print()
     res.save_to_img(save_path="./output/")
@@ -92,7 +83,7 @@ for res in output:
 
 在上述 Python 脚本中，执行了如下几个步骤：
 
-（1）通过 `create_pipeline()` 实例化 小目标检测 产线对象，具体参数说明如下：
+（1）通过 `create_pipeline()` 实例化 开放词汇分割 产线对象，具体参数说明如下：
 
 <table>
 <thead>
@@ -131,7 +122,7 @@ for res in output:
 </tbody>
 </table>
 
-（2）调用 小目标检测 产线对象的 `predict()` 方法进行推理预测。该方法将返回一个 `generator`。以下是 `predict()` 方法的参数及其说明：
+（2）调用 开放词汇分割 产线对象的 `predict()` 方法进行推理预测。该方法将返回一个 `generator`。以下是 `predict()` 方法的参数及其说明：
 
 <table>
 <thead>
@@ -150,7 +141,7 @@ for res in output:
 <td>
 <ul>
   <li><b>Python Var</b>：如 <code>numpy.ndarray</code> 表示的图像数据</li>
-  <li><b>str</b>：如图像文件或者PDF文件的本地路径：<code>/root/data/img.jpg</code>；<b>如URL链接</b>，如图像文件或PDF文件的网络URL：<a href = "https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/small_object_detection.jpg">示例</a>；<b>如本地目录</b>，该目录下需包含待预测图像，如本地路径：<code>/root/data/</code>(当前不支持目录中包含PDF文件的预测，PDF文件需要指定到具体文件路径)</li>
+  <li><b>str</b>：如图像文件或者PDF文件的本地路径：<code>/root/data/img.jpg</code>；<b>如URL链接</b>，如图像文件或PDF文件的网络URL：<a href = "https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/open_vocabulary_segmentation.jpg">示例</a>；<b>如本地目录</b>，该目录下需包含待预测图像，如本地路径：<code>/root/data/</code>(当前不支持目录中包含PDF文件的预测，PDF文件需要指定到具体文件路径)</li>
   <li><b>List</b>：列表元素需为上述类型数据，如<code>[numpy.ndarray, numpy.ndarray]</code>，<code>[\"/root/data/img1.jpg\", \"/root/data/img2.jpg\"]</code>，<code>[\"/root/data1\", \"/root/data2\"]</code></li>
 </ul>
 </td>
@@ -173,18 +164,28 @@ for res in output:
 </td>
 <td><code>None</code></td>
 </tr>
-<td><code>threshold</code></td>
-<td>模型推理时实际使用的图像分辨率</td>
-<td><code>None|float|dict[int, float]</code></td>
+<td><code>prompt_type</code></td>
+<td>模型推理时使用的提示类型</td>
+<td><code>str</code></td>
 <td>
 <ul>
-    <li><b>None</b>：如果设置为 <code>None</code>, 将默认使用产线初始化参数<code>0.5</code>, 即以0.5作为所有类别的低分object过滤阈值
-    <li><b>float</b>：任意大于0小于1的浮点数
-    <li><b>dict[int, float]</b>: key表示类别ID, value表示类别对应的阈值, 表示对不同类别使用不同的低分过滤阈值, 如<code>{0:0.5, 1:0.35}</code>表示对类别0和类别1分别使用0.5和0.35作为低分过滤阈值</td>
+    <li><b>box</b>：使用边界框作为提示词输入, 如果设置为<code>box</code>, 输入的prompt需要是<code>list[list[float, float, float, float]]</code>的形式</li>
+    <li><b>point</b>：使用点作为提示词输入, 如果设置为<code>point</code>, 输入的prompt需要是<code>list[list[float, float]]</code>的形式</li>
 </ul>
 </ul>
 </td>
-<td><code>None</code></td>
+<td><code>无</code></td>
+</tr>
+<td><code>prompt</code></td>
+<td>模型推理时具体使用的提示</td>
+<td><code>list[list[float]]</code></td>
+<td>
+<ul>
+    <li><b>list[list[float]]</b>：需要根据<code>prompt_type</code>的具体类型设置
+</ul>
+</ul>
+</td>
+<td><code>无</code></td>
 </tr>
 
 </table>
@@ -258,11 +259,13 @@ for res in output:
 
     - `page_index`: `(Union[int, None])` 如果输入是PDF文件，则表示当前是PDF的第几页，否则为 `None`
 
-    - `boxes`: `(list)` 检测框信息，每个元素为一个字典，包含以下字段
-      - `cls_id`: `(int)` 类别ID
-      - `label`: `(str)` 类别名称
-      - `score`: `(float)` 置信度
-      - `coordinates`: `(list)` 检测框坐标，格式为`[xmin, ymin, xmax, ymax]`
+    - `prompts`: `(dict)` 该图片预测时使用的原始提示信息
+
+    - `masks`: `...` 分割模型实际预测的mask，由于数据过大不便于直接print，因此用`...`替换，可以通过res.save_to_img将预测结果保存为图片，通过res.save_to_json将预测结果保存为json文件。
+
+    - `mask_infos`: `(list)` 分割结果信息，对应`masks`中的元素，长度和`masks`相等，每个元素为一个字典，包含以下字段
+      - `label`: `(str)` 对应的`masks`中元素由哪种类型的prompt预测获得, 如`box_prompt`表示对应的mask由边界框作为提示词获得
+      - `prompt`: `list` 对应的`masks`中元素预测时具体使用的提示信息
 
 - 调用`save_to_json()` 方法会将上述内容保存到指定的`save_path`中，如果指定为目录，则保存的路径为`save_path/{your_img_basename}_res.json`，如果指定为文件，则直接保存到该文件中。由于json文件不支持保存numpy数组，因此会将其中的`numpy.array`类型转换为列表形式。
 
@@ -288,25 +291,27 @@ for res in output:
 </table>
 
 - `json` 属性获取的预测结果为dict类型的数据，相关内容与调用 `save_to_json()` 方法保存的内容一致。
-- `img` 属性返回的预测结果是一个字典类型的数据。其中，键为 `res`, 对应的值是一个 `Image.Image` 对象：一个用于显示 小目标检测 的预测结果。
+- `img` 属性返回的预测结果是一个字典类型的数据。其中，键为 `res`, 对应的值是一个 `Image.Image` 对象：一个用于显示 开放词汇分割 的预测结果。
 
-此外，您可以获取 小目标检测 产线配置文件，并加载配置文件进行预测。可执行如下命令将结果保存在 `my_path` 中：
+此外，您可以获取 开放词汇分割 产线配置文件，并加载配置文件进行预测。可执行如下命令将结果保存在 `my_path` 中：
 
 ```
-paddlex --get_pipeline_config small_object_detection --save_path ./my_path
+paddlex --get_pipeline_config open_vocabulary_segmentation --save_path ./my_path
 ```
 
-若您获取了配置文件，即可对小目标检测产线各项配置进行自定义，只需要修改 `create_pipeline` 方法中的 `pipeline` 参数值为产线配置文件路径即可。示例如下：
+若您获取了配置文件，即可对开放词汇分割产线各项配置进行自定义，只需要修改 `create_pipeline` 方法中的 `pipeline` 参数值为产线配置文件路径即可。示例如下：
 
 ```python
 from paddlex import create_pipeline
 
-pipeline = create_pipeline(pipeline="./my_path/small_object_detection.yaml")
+pipeline = create_pipeline(pipeline="./my_path/open_vocabulary_segmentation.yaml")
 
 output = pipeline.predict(
-    input="./small_object_detection.jpg",
-    threshold=0.5,
+    input="./open_vocabulary_segmentation.jpg",
+    prompt_type="box",
+    prompt=[[112.9,118.4,513.8,382.1],[4.6,263.6,92.2,336.6],[592.4,260.9,607.2,294.2]]
 )
+
 for res in output:
     res.print()
     res.save_to_img("./output/")
@@ -314,12 +319,12 @@ for res in output:
 
 ```
 
-<b>注：</b> 配置文件中的参数为产线初始化参数，如果希望更改通用小目标检测产线初始化参数，可以直接修改配置文件中的参数，并加载配置文件进行预测。同时，CLI 预测也支持传入配置文件，`--pipeline` 指定配置文件的路径即可。
+<b>注：</b> 配置文件中的参数为产线初始化参数，如果希望更改通用开放词汇分割产线初始化参数，可以直接修改配置文件中的参数，并加载配置文件进行预测。同时，CLI 预测也支持传入配置文件，`--pipeline` 指定配置文件的路径即可。
 
 ## 3. 开发集成/部署
 如果产线可以达到您对产线推理速度和精度的要求，您可以直接进行开发集成/部署。
 
-若您需要将产线直接应用在您的Python项目中，可以参考 [2.2 Python脚本方式](#22-python脚本方式集成)中的示例代码。
+若您需要将产线直接应用在您的Python项目中，可以参考 [2.1.2 Python脚本方式](#212-python脚本方式集成)中的示例代码。
 
 此外，PaddleX 也提供了其他三种部署方式，详细说明如下：
 
@@ -401,8 +406,8 @@ for res in output:
 <ul>
 <li><b><code>infer</code></b></li>
 </ul>
-<p>对图像进行目标检测。</p>
-<p><code>POST /small-object-detection</code></p>
+<p>对图像进行目标分割。</p>
+<p><code>POST /open-vocabulary-segmentation</code></p>
 <ul>
 <li>请求体的属性如下：</li>
 </ul>
@@ -422,6 +427,18 @@ for res in output:
 <td>服务器可访问的图像文件的URL或图像文件内容的Base64编码结果。</td>
 <td>是</td>
 </tr>
+<tr>
+<td><code>prompt</code></td>
+<td><code>list[list[float]]</code></td>
+<td>预测使用的提示。</td>
+<td>是</td>
+</tr>
+<tr>
+<td><code>prompt_type</code></td>
+<td><code>str</code></td>
+<td>预测使用的提示类型。</td>
+<td>是</td>
+</tr>
 </tbody>
 </table>
 <ul>
@@ -437,71 +454,37 @@ for res in output:
 </thead>
 <tbody>
 <tr>
-<td><code>detectedObjects</code></td>
+<td><code>masks</code></td>
 <td><code>array</code></td>
-<td>目标的位置、类别等信息。</td>
+<td>分割的预测结果。</td>
+</tr>
+<tr>
+<td><code>mask_infos</code></td>
+<td><code>array</code></td>
+<td>和masks字段中的元素一一对应，记录masks中对应分割结果所使用的对应prompt。</td>
 </tr>
 <tr>
 <td><code>image</code></td>
 <td><code>string</code></td>
-<td>目标检测结果图。图像为JPEG格式，使用Base64编码。</td>
+<td>分割结果图。图像为JPEG格式，使用Base64编码。</td>
 </tr>
 </tbody>
 </table>
-<p><code>detectedObjects</code>中的每个元素为一个<code>object</code>，具有如下属性：</p>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>类型</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>bbox</code></td>
-<td><code>array</code></td>
-<td>目标位置。数组中元素依次为边界框左上角x坐标、左上角y坐标、右下角x坐标以及右下角y坐标。</td>
-</tr>
-<tr>
-<td><code>categoryId</code></td>
-<td><code>integer</code></td>
-<td>目标类别ID。</td>
-</tr>
-<tr>
-<td><code>score</code></td>
-<td><code>number</code></td>
-<td>目标得分。</td>
-</tr>
-</tbody>
-</table>
+<b>注意</b>：考虑到网络传输, masks字段中记录的分割结果经过<code>rle</code>编码结果, 实际使用时需要使用<code>pycocotools.mask.decode</code>做对应的解码即可获得原始的分割结果。
+
+
 <p><code>result</code>示例如下：</p>
-<pre><code class="language-json">{
-&quot;detectedObjects&quot;: [
+<pre><code class="language-python">
 {
-&quot;bbox&quot;: [
-404.4967956542969,
-90.15770721435547,
-506.2465515136719,
-285.4187316894531
-],
-&quot;categoryId&quot;: 0,
-&quot;score&quot;: 0.7418514490127563
-},
-{
-&quot;bbox&quot;: [
-155.33145141601562,
-81.10954284667969,
-199.71136474609375,
-167.4235382080078
-],
-&quot;categoryId&quot;: 1,
-&quot;score&quot;: 0.7328268885612488
+    'masks': [rle_mask1, rle_mask2, rle_mask3]
+    'mask_infos': [
+        {'label': 'box_prompt', 'prompt': [112.9, 118.4, 513.8, 382.1]},
+        {'label': 'box_prompt', 'prompt': [4.6, 263.6, 92.2, 336.6]},
+        {'label': 'box_prompt', 'prompt': [592.4, 260.9, 607.2, 294.2]}
+    ]
 }
-],
-&quot;image&quot;: &quot;xxxxxx&quot;
-}
-</code></pre></details>
+</code>
+</details>
 
 <details><summary>多语言调用服务示例</summary>
 
@@ -512,28 +495,34 @@ for res in output:
 <pre><code class="language-python">import base64
 import requests
 
-API_URL = &quot;http://localhost:8080/small-object-detection&quot; # 服务URL
-image_path = &quot;./demo.jpg&quot;
-output_image_path = &quot;./out.jpg&quot;
+API_URL = "http://localhost:8080/open-vocabulary-segmentation" # 服务URL
+image_path = "./open_vocabulary_segmentation.jpg"
+output_image_path = "./out.jpg"
 
 # 对本地图像进行Base64编码
-with open(image_path, &quot;rb&quot;) as file:
+with open(image_path, "rb") as file:
     image_bytes = file.read()
-    image_data = base64.b64encode(image_bytes).decode(&quot;ascii&quot;)
+    image_data = base64.b64encode(image_bytes).decode("ascii")
 
-payload = {&quot;image&quot;: image_data}  # Base64编码的文件内容或者图像URL
+payload = {
+    "image": image_data, # Base64编码的文件内容或者图像URL
+    "prompt_type": "box",
+    "prompt": [[112.9,118.4,513.8,382.1],[4.6,263.6,92.2,336.6],[592.4,260.9,607.2,294.2]]
+}
 
 # 调用API
 response = requests.post(API_URL, json=payload)
 
 # 处理接口返回数据
 assert response.status_code == 200
-result = response.json()[&quot;result&quot;]
-with open(output_image_path, &quot;wb&quot;) as file:
-    file.write(base64.b64decode(result[&quot;image&quot;]))
-print(f&quot;Output image saved at {output_image_path}&quot;)
-print(&quot;\nDetected objects:&quot;)
-print(result[&quot;detectedObjects&quot;])
+result = response.json()["result"]
+image_base64 = result["image"]
+image = base64.b64decode(image_base64)
+with open(output_image_path, "wb") as file:
+    file.write(base64.b64decode(result["image"]))
+print(f"Output image saved at {output_image_path}")
+print("\nresult(with rle encoded binary mask):")
+print(result)
 </code></pre></details>
 
 <details><summary>C++</summary>
@@ -570,7 +559,7 @@ int main() {
     std::string body = jsonObj.dump();
 
     // 调用API
-    auto response = client.Post(&quot;/small-object-detection&quot;, headers, body, &quot;application/json&quot;);
+    auto response = client.Post(&quot;/small-object-segmentation&quot;, headers, body, &quot;application/json&quot;);
     // 处理接口返回数据
     if (response &amp;&amp; response-&gt;status == 200) {
         nlohmann::json jsonResponse = nlohmann::json::parse(response-&gt;body);
@@ -616,7 +605,7 @@ import java.util.Base64;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String API_URL = &quot;http://localhost:8080/small-object-detection&quot;; // 服务URL
+        String API_URL = &quot;http://localhost:8080/small-object-segmentation&quot;; // 服务URL
         String imagePath = &quot;./demo.jpg&quot;; // 本地图像
         String outputImagePath = &quot;./out.jpg&quot;; // 输出图像
 
@@ -675,7 +664,7 @@ import (
 )
 
 func main() {
-    API_URL := &quot;http://localhost:8080/small-object-detection&quot;
+    API_URL := &quot;http://localhost:8080/small-object-segmentation&quot;
     imagePath := &quot;./demo.jpg&quot;
     outputImagePath := &quot;./out.jpg&quot;
 
@@ -758,7 +747,7 @@ using Newtonsoft.Json.Linq;
 
 class Program
 {
-    static readonly string API_URL = &quot;http://localhost:8080/small-object-detection&quot;;
+    static readonly string API_URL = &quot;http://localhost:8080/small-object-segmentation&quot;;
     static readonly string imagePath = &quot;./demo.jpg&quot;;
     static readonly string outputImagePath = &quot;./out.jpg&quot;;
 
@@ -797,7 +786,7 @@ class Program
 <pre><code class="language-js">const axios = require('axios');
 const fs = require('fs');
 
-const API_URL = 'http://localhost:8080/small-object-detection'
+const API_URL = 'http://localhost:8080/small-object-segmentation'
 const imagePath = './demo.jpg'
 const outputImagePath = &quot;./out.jpg&quot;;
 
@@ -838,7 +827,7 @@ axios.request(config)
 
 <pre><code class="language-php">&lt;?php
 
-$API_URL = &quot;http://localhost:8080/small-object-detection&quot;; // 服务URL
+$API_URL = &quot;http://localhost:8080/small-object-segmentation&quot;; // 服务URL
 $image_path = &quot;./demo.jpg&quot;;
 $output_image_path = &quot;./out.jpg&quot;;
 
@@ -872,55 +861,7 @@ print_r($result[&quot;detectedObjects&quot;]);
 
 
 ## 4. 二次开发
-如果通用小目标检测产线提供的默认模型权重在您的场景中，精度或速度不满意，您可以尝试利用<b>您自己拥有的特定领域或应用场景的数据</b>对现有模型进行进一步的<b>微调</b>，以提升小目标检测产线的在您的场景中的识别效果。
-
-### 4.1 模型微调
-由于通用小目标检测产线包含小目标检测模块，如果模型产线的效果不及预期，您可以对分割效果差的图片进行分析，并参考以下表格中对应的微调教程链接进行模型微调。
-
-
-<table>
-  <thead>
-    <tr>
-      <th>情形</th>
-      <th>微调模块</th>
-      <th>微调参考链接</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>预测结果不达预期</td>
-      <td>小目标检测模块</td>
-      <td><a href="../../../module_usage/tutorials/cv_modules/small_object_detection.md">链接</a></td>
-    </tr>
-  </tbody>
-</table>
-
-### 4.2 模型应用
-当您使用私有数据集完成微调训练后，可获得本地模型权重文件。
-
-若您需要使用微调后的模型权重，只需对产线配置文件做修改，将微调后模型权重的本地路径替换至产线配置文件中的对应位置即可：
-
-```yaml
-SubModules:
-  SmallObjectDetection:
-    module_name: small_object_detection
-    model_name: PP-YOLOE_plus_SOD-L
-    model_dir: null # 替换为微调后的小目标检测模型权重路径
-    batch_size: 1
-    threshold: 0.5
-```
-随后， 参考本地体验中的命令行方式或 Python 脚本方式，加载修改后的产线配置文件即可。
+当前产线暂时不支持微调训练，仅支持推理集成。关于该产线的微调训练，计划在未来支持。
 
 ## 5. 多硬件支持
-PaddleX 支持英伟达 GPU、昆仑芯 XPU、昇腾 NPU和寒武纪 MLU 等多种主流硬件设备，<b>仅需修改 `--device`参数</b>即可完成不同硬件之间的无缝切换。
-
-例如，您使用昇腾 NPU 进行 小目标检测 产线的推理，使用的 Python 命令为：
-
-```bash
-paddlex --pipeline small_object_detection \
-        --input small_object_detection.jpg \
-        --threshold 0.5 \
-        --save_path ./output \
-        --device npu:0
-```
-若您想在更多种类的硬件上使用通用小目标检测产线，请参考[PaddleX多硬件使用指南](../../../other_devices_support/multi_devices_use_guide.md)。
+当前产线暂时仅支持GPU和CPU推理。关于该产线对于更多硬件的适配，计划在未来支持。
