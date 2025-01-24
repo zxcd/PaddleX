@@ -19,7 +19,7 @@ from fastapi import FastAPI
 from ...infra import utils as serving_utils
 from ...infra.config import AppConfig
 from ...infra.models import ResultResponse
-from ...schemas.layout_parsing import INFER_ENDPOINT, InferRequest, InferResult
+from ...schemas import pp_chatocrv4_doc as schema
 from .._app import create_app, primary_operation
 from ._common import common
 from ._common import ocr as ocr_common
@@ -34,26 +34,26 @@ def create_pipeline_app(pipeline: Any, app_config: AppConfig) -> FastAPI:
 
     @primary_operation(
         app,
-        INFER_ENDPOINT,
-        "infer",
+        schema.ANALYZE_IMAGES_ENDPOINT,
+        "analyzeImages",
     )
-    async def _infer(
-        request: InferRequest,
-    ) -> ResultResponse[InferResult]:
+    async def _analyze_images(
+        request: schema.AnalyzeImagesRequest,
+    ) -> ResultResponse[schema.AnalyzeImagesResult]:
         pipeline = ctx.pipeline
 
         log_id = serving_utils.generate_log_id()
 
         images, data_info = await ocr_common.get_images(request, ctx)
 
-        result = await pipeline.infer(
+        result = await pipeline.call(
+            pipeline.pipeline.visual_predict,
             images,
             use_doc_orientation_classify=request.useDocOrientationClassify,
             use_doc_unwarping=request.useDocUnwarping,
             use_general_ocr=request.useGeneralOcr,
             use_seal_recognition=request.useSealRecognition,
             use_table_recognition=request.useTableRecognition,
-            use_formula_recognition=request.useFormulaRecognition,
             text_det_limit_side_len=request.textDetLimitSideLen,
             text_det_limit_type=request.textDetLimitType,
             text_det_thresh=request.textDetThresh,
@@ -66,18 +66,16 @@ def create_pipeline_app(pipeline: Any, app_config: AppConfig) -> FastAPI:
             seal_det_box_thresh=request.sealDetBoxThresh,
             seal_det_unclip_ratio=request.sealDetUnclipRatio,
             seal_rec_score_thresh=request.sealRecScoreThresh,
-            layout_nms=request.layoutNms,
-            layout_unclip_ratio=request.layoutUnclipRatio,
-            layout_merge_bboxes_mode=request.layoutMergeBboxesMode,
         )
 
         layout_parsing_results: List[Dict[str, Any]] = []
+        visual_info: List[dict] = []
         for i, (img, item) in enumerate(zip(images, result)):
-            pruned_res = common.prune_result(item.json["res"])
+            pruned_res = common.prune_result(item["layout_parsing_result"].json["res"])
             if ctx.config.visualize:
                 imgs = {
                     "input_img": img,
-                    **item.img,
+                    **item["layout_parsing_result"].img,
                 }
                 imgs = await serving_utils.call_async(
                     common.postprocess_images,
@@ -101,12 +99,82 @@ def create_pipeline_app(pipeline: Any, app_config: AppConfig) -> FastAPI:
                     inputImage=imgs.get("input_img"),
                 )
             )
+            visual_info.append(item["visual_info"])
 
-        return ResultResponse[InferResult](
+        return ResultResponse[schema.AnalyzeImagesResult](
             logId=log_id,
-            result=InferResult(
+            result=schema.AnalyzeImagesResult(
                 layoutParsingResults=layout_parsing_results,
+                visualInfo=visual_info,
                 dataInfo=data_info,
+            ),
+        )
+
+    @primary_operation(
+        app,
+        schema.BUILD_VECTOR_STORE_ENDPOINT,
+        "buildVectorStore",
+    )
+    async def _build_vector_store(
+        request: schema.BuildVectorStoreRequest,
+    ) -> ResultResponse[schema.BuildVectorStoreResult]:
+        pipeline = ctx.pipeline
+
+        kwargs: Dict[str, Any] = {"flag_save_bytes_vector": True}
+        if request.minCharacters is not None:
+            kwargs["min_characters"] = request.minCharacters
+        if request.llmRequestInterval is not None:
+            kwargs["llm_request_interval"] = request.llmRequestInterval
+
+        vector_info = await serving_utils.call_async(
+            pipeline.pipeline.build_vector,
+            request.visualInfo,
+            **kwargs,
+        )
+
+        return ResultResponse[schema.BuildVectorStoreResult](
+            logId=serving_utils.generate_log_id(),
+            result=schema.BuildVectorStoreResult(vectorInfo=vector_info),
+        )
+
+    @primary_operation(
+        app,
+        schema.CHAT_ENDPOINT,
+        "chat",
+    )
+    async def _chat(
+        request: schema.ChatRequest,
+    ) -> ResultResponse[schema.ChatResult]:
+        pipeline = ctx.pipeline
+
+        kwargs: Dict[str, Any] = dict(
+            vector_info=request.vectorInfo,
+            text_task_description=request.textTaskDescription,
+            text_output_format=request.textOutputFormat,
+            text_rules_str=request.textRulesStr,
+            text_few_shot_demo_text_content=request.textFewShotDemoTextContent,
+            text_few_shot_demo_key_value_list=request.textFewShotDemoKeyValueList,
+            table_task_description=request.tableTaskDescription,
+            table_output_format=request.tableOutputFormat,
+            table_rules_str=request.tableRulesStr,
+            table_few_shot_demo_text_content=request.tableFewShotDemoTextContent,
+            table_few_shot_demo_key_value_list=request.tableFewShotDemoKeyValueList,
+        )
+        if request.useVectorRetrieval is not None:
+            kwargs["use_vector_retrieval"] = request.useVectorRetrieval
+        if request.minCharacters is not None:
+            kwargs["min_characters"] = request.minCharacters
+
+        result = await serving_utils.call_async(
+            pipeline.pipeline.chat,
+            request.keyList,
+            request.visualInfo,
+        )
+
+        return ResultResponse[schema.ChatResult](
+            logId=serving_utils.generate_log_id(),
+            result=schema.ChatResult(
+                chatResult=result["chat_res"],
             ),
         )
 
