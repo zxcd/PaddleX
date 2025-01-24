@@ -99,7 +99,7 @@ for res in output:
 
 在上述 Python 脚本中，执行了如下几个步骤：
 
-（1）通过 `create_pipeline()` 实例化 doc_preprocessor 产线对象：具体参数说明如下：
+（1）通过 `create_pipeline()` 实例化 multilingual_speech_recognition 产线对象：具体参数说明如下：
 
 <table>
 <thead>
@@ -123,16 +123,10 @@ for res in output:
 <td><code>str</code></td>
 <td><code>gpu:0</code></td>
 </tr>
-<tr>
-<td><code>use_hpip</code></td>
-<td>是否启用高性能推理，仅当该产线支持高性能推理时可用。</td>
-<td><code>bool</code></td>
-<td><code>False</code></td>
-</tr>
 </tbody>
 </table>
 
-（2）调用 doc_preprocessor 产线对象的 `predict()` 方法进行推理预测。该方法将返回一个 `generator`。以下是 `predict()` 方法的参数及其说明：
+（2）调用 multilingual_speech_recognition 产线对象的 `predict()` 方法进行推理预测。该方法将返回一个 `generator`。以下是 `predict()` 方法的参数及其说明：
 
 <table>
 <thead>
