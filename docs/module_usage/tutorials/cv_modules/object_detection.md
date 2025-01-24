@@ -373,30 +373,35 @@ comments: true
 
 ```python
 from paddlex import create_model
-model = create_model("PicoDet-S")
-output = model.predict("general_object_detection_002.png", batch_size=1)
+
+model = create_model(model_name="PicoDet-S")
+
+output = model.predict(
+  "general_object_detection_002.png",
+  batch_size=1,
+  threshold=0.5
+)
+
 for res in output:
     res.print(json_format=False)
     res.save_to_img("./output/")
-    res.save_to_json("./output/res.json")
+    res.save_to_json("./output/")
 ```
 
-<details><summary>👉 <b>运行后，得到的结果为：（点击展开）</b></summary>
+运行后，得到的结果为:
 
 ```bash
-{'res': {'input_path': 'general_object_detection_002.png', 'boxes': [{'cls_id': 49, 'label': 'orange', 'score': 0.8188614249229431, 'coordinate': [661.351806640625, 93.0582275390625, 870.759033203125, 305.9371337890625]}, {'cls_id': 47, 'label': 'apple', 'score': 0.7745078206062317, 'coordinate': [76.80911254882812, 274.7490539550781, 330.5422058105469, 520.0427856445312]}, {'cls_id': 47, 'label': 'apple', 'score': 0.7271787524223328, 'coordinate': [285.3264465332031, 94.31749725341797, 469.7364501953125, 297.4034423828125]}, {'cls_id': 46, 'label': 'banana', 'score': 0.5576589703559875, 'coordinate': [310.8041076660156, 361.4362487792969, 685.1868896484375, 712.591552734375]}, {'cls_id': 47, 'label': 'apple', 'score': 0.5490103363990784, 'coordinate': [764.6251831054688, 285.7609558105469, 924.8153076171875, 440.9289245605469]}, {'cls_id': 47, 'label': 'apple', 'score': 0.515821635723114, 'coordinate': [853.9830932617188, 169.4142303466797, 987.802978515625, 303.5861511230469]}, {'cls_id': 60, 'label': 'dining table', 'score': 0.514293372631073, 'coordinate': [0.5308971405029297, 0.32445716857910156, 1072.953369140625, 720]}, {'cls_id': 47, 'label': 'apple', 'score': 0.510750949382782, 'coordinate': [57.36802673339844, 23.455347061157227, 213.39601135253906, 176.45611572265625]}]}}
+{'res': {'input_path': 'general_object_detection_002.png', 'page_index': None, 'boxes': [{'cls_id': 49, 'label': 'orange', 'score': 0.8188614249229431, 'coordinate': [661.3518, 93.05823, 870.75903, 305.93713]}, {'cls_id': 47, 'label': 'apple', 'score': 0.7745078206062317, 'coordinate': [76.80911, 274.74905, 330.5422, 520.0428]}, {'cls_id': 47, 'label': 'apple', 'score': 0.7271787524223328, 'coordinate': [285.32645, 94.3175, 469.73645, 297.40344]}, {'cls_id': 46, 'label': 'banana', 'score': 0.5576589703559875, 'coordinate': [310.8041, 361.43625, 685.1869, 712.59155]}, {'cls_id': 47, 'label': 'apple', 'score': 0.5490103363990784, 'coordinate': [764.6252, 285.76096, 924.8153, 440.92892]}, {'cls_id': 47, 'label': 'apple', 'score': 0.515821635723114, 'coordinate': [853.9831, 169.41423, 987.803, 303.58615]}, {'cls_id': 60, 'label': 'dining table', 'score': 0.514293372631073, 'coordinate': [0.53089714, 0.32445717, 1072.9534, 720]}, {'cls_id': 47, 'label': 'apple', 'score': 0.510750949382782, 'coordinate': [57.368027, 23.455347, 213.39601, 176.45612]}]}}
 ```
 
 参数含义如下：
-- `input_path`：输入的待预测图像的路径
+- `input_path`：表示输入图像的路径
+- `page_index`：如果输入是PDF文件，则表示当前是PDF的第几页，否则为 `None`
 - `boxes`：预测的目标框信息，一个字典列表。每个字典代表一个检出的目标，包含以下信息：
   - `cls_id`：类别ID，一个整数
   - `label`：类别标签，一个字符串
   - `score`：目标框置信度，一个浮点数
   - `coordinate`：目标框坐标，一个浮点数列表，格式为<code>[xmin, ymin, xmax, ymax]</code>
-
-</details>
-
 
 可视化图像如下：
 
@@ -432,26 +437,26 @@ for res in output:
 <tr>
 <td><code>img_size</code></td>
 <td>输入图像大小；如果不指定，将默认使用PaddleX官方模型配置</td>
-<td><code>int/list</code></td>
+<td><code>int/list/None</code></td>
 <td>
 <ul>
   <li><b>int</b>, 如 640 , 表示将输入图像resize到640x640大小</li>
-  <li><b>列表</b>, 如 [640, 512] , 表示将输入图像resize到宽为640，高为512大小</li>
+  <li><b>列表</b>, 如 [512, 640] , 表示将输入图像resize到宽为640，高为512大小</li>
 </ul>
 </td>
-<td>无</td>
+<td><code>None</code></td>
 </tr>
 <tr>
 <td><code>threshold</code></td>
 <td>用于过滤掉低置信度预测结果的阈值；如果不指定，将默认使用PaddleX官方模型配置</td>
-<td><code>float/dict</code></td>
+<td><code>float/dict/None</code></td>
 <td>
 <ul>
   <li><b>float</b>，如 0.2， 表示过滤掉所有阈值小于0.2的目标框</li>
   <li><b>字典</b>，字典的key为<b>int</b>类型，代表<code>cls_id</code>，val为<b>float</b>类型阈值。如 <code>{0: 0.45, 2: 0.48, 7: 0.4}</code>，表示对cls_id为0的类别应用阈值0.45、cls_id为1的类别应用阈值0.48、cls_id为7的类别应用阈值0.4</li>
 </ul>
 </td>
-<td>无</td>
+<td><code>None</code></td>
 </tr>
 </table>
 
@@ -471,16 +476,13 @@ for res in output:
 </thead>
 <tr>
 <td><code>input</code></td>
-<td>待预测数据，支持多种输入类型</td>
-<td><code>Python Var</code>/<code>str</code>/<code>dict</code>/<code>list</code></td>
+<td>待预测数据，支持多种输入类型，必填</td>
+<td><code>Python Var|str|list</code></td>
 <td>
 <ul>
-  <li><b>Python变量</b>，如<code>numpy.ndarray</code>表示的图像数据</li>
-  <li><b>文件路径</b>，如图像文件的本地路径：<code>/root/data/img.jpg</code></li>
-  <li><b>URL链接</b>，如图像文件的网络URL：<a href = "https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/general_ocr_rec_001.png">示例</a></li>
-  <li><b>本地目录</b>，该目录下需包含待预测数据文件，如本地路径：<code>/root/data/</code></li>
-  <li><b>字典</b>，字典的<code>key</code>需与具体任务对应，如图像分类任务对应<code>\"img\"</code>，字典的<code>val</code>支持上述类型数据，例如：<code>{\"img\": \"/root/data1\"}</code></li>
-  <li><b>列表</b>，列表元素需为上述类型数据，如<code>[numpy.ndarray, numpy.ndarray]</code>，<code>[\"/root/data/img1.jpg\", \"/root/data/img2.jpg\"]</code>，<code>[\"/root/data1\", \"/root/data2\"]</code>，<code>[{\"img\": \"/root/data1\"}, {\"img\": \"/root/data2/img.jpg\"}]</code></li>
+  <li><b>Python Var</b>：如 <code>numpy.ndarray</code> 表示的图像数据</li>
+  <li><b>str</b>：如图像文件或者PDF文件的本地路径：<code>/root/data/img.jpg</code>；<b>如URL链接</b>，如图像文件或PDF文件的网络URL：<a href = "https://paddle-model-ecology.bj.bcebos.com/paddlex/imgs/demo_image/general_ocr_002.png">示例</a>；<b>如本地目录</b>，该目录下需包含待预测图像，如本地路径：<code>/root/data/</code>(当前不支持目录中包含PDF文件的预测，PDF文件需要指定到具体文件路径)</li>
+  <li><b>List</b>：列表元素需为上述类型数据，如<code>[numpy.ndarray, numpy.ndarray]</code>，<code>[\"/root/data/img1.jpg\", \"/root/data/img2.jpg\"]</code>，<code>[\"/root/data1\", \"/root/data2\"]</code></li>
 </ul>
 </td>
 <td>无</td>
@@ -495,14 +497,14 @@ for res in output:
 <tr>
 <td><code>threshold</code></td>
 <td>用于过滤掉低置信度预测结果的阈值；如果不指定，将默认使用 <code>creat_model</code> 指定的 <code>threshold</code> 参数，如果 <code>creat_model</code> 也没有指定，则默认使用PaddleX官方模型配置</td>
-<td><code>float/dict</code></td>
+<td><code>float/dict/None</code></td>
 <td>
 <ul>
   <li><b>float</b>，如 0.2， 表示过滤掉所有阈值小于0.2的目标框</li>
   <li><b>字典</b>，字典的key为<b>int</b>类型，代表<code>cls_id</code>，val为<b>float</b>类型阈值。如 <code>{0: 0.45, 2: 0.48, 7: 0.4}</code>，表示对cls_id为0的类别应用阈值0.45、cls_id为1的类别应用阈值0.48、cls_id为7的类别应用阈值0.4</li>
 </ul>
 </td>
-<td>无</td>
+<td><code>None</code></td>
 </tr>
 </table>
 
