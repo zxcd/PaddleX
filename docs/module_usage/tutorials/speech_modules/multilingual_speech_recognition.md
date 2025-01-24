@@ -63,9 +63,9 @@ comments: true
 ```python
 from paddlex import create_model
 model = create_model(model_name="whisper_large")
-output = model.predict("./zh.wav", batch_size=1)
+output = model.predict(input="./zh.wav", batch_size=1)
 for res in output:
-    res.print(json_format=False)
+    res.print()
     res.save_to_json(save_path="./output/res.json")
 ```
 运行后，得到的结果为：
@@ -224,50 +224,3 @@ for res in output:
 </table>
 
 关于更多 PaddleX 的单模型推理的 API 的使用方法，可以参考[PaddleX单模型Python脚本使用说明](../../instructions/model_python_API.md)。
-
-## 四、二次开发
-目前该模型仅支持推理，暂不支持模型的训练。
-
-### 4.1 数据准备
-在进行模型训练前，需要准备相应任务模块的数据集。PaddleX 针对每一个模块提供了数据校验功能，<b>只有通过数据校验的数据才可以进行模型训练</b>。此外，PaddleX 为每一个模块都提供了 Demo 数据集，您可以基于官方提供的 Demo 数据完成后续的开发。
-
-#### 4.1.1 Demo 数据下载
-您可以参考下面的命令将 Demo 数据集下载到指定文件夹：
-
-```bash
-wget https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav
-```
-
-### 4.2 模型训练
-暂不支持
-
-## <b>4.3 模型评估</b>
-暂不支持
-
-### <b>4.4 模型推理和模型集成</b>
-
-#### 4.4.1 模型推理
-通过命令行的方式进行推理预测，只需如下一条命令。运行以下代码前，请您下载[示例语音](https://paddlespeech.bj.bcebos.com/PaddleAudio/zh.wav)到本地。
-
-```bash
-python main.py -c paddlex/configs/modules/multilingual_speech_recognition/whisper_large.yaml \
-    -o Global.mode=predict \
-    -o Predict.input="./zh.wav"
-```
-模型推理配置需要如下几步：
-
-* 指定模型的`.yaml` 配置文件路径（此处为`whisper_large.yaml`）
-* 指定模式为模型推理预测：`-o Global.mode=predict`
-* 指定输入数据路径：`-o Predict.input="..."`
-其他相关参数均可通过修改`.yaml`配置文件中的`Global`和`Predict`下的字段来进行设置，详细请参考[PaddleX通用模型配置文件参数说明](../../instructions/config_parameters_common.md)。
-
-#### 4.4.2 模型集成
-模型可以直接集成到 PaddleX 产线中，也可以直接集成到您自己的项目中。
-
-1.<b>产线集成</b>
-
-暂无示例。
-
-2.<b>模块集成</b>
-
-您产出的权重可以直接集成到多语种语音识别模块中，可以参考[快速集成](#三快速集成)的 Python 示例代码，只需要将模型替换为你训练的到的模型路径即可。
