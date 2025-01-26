@@ -45,27 +45,21 @@ PaddleX 所提供的预训练的模型产线均可以快速体验效果，你可
 ### 2.2 本地体验
 > ❗ 在本地使用3D多模态融合检测产线前，请确保您已经按照[PaddleX安装教程](../../../installation/installation.md)完成了PaddleX的wheel包安装。
 
-Demo数据集下载：您可以参考下面的命令将 Demo 数据集下载到指定文件夹：
-
-```bash
-wget https://paddle-model-ecology.bj.bcebos.com/paddlex/data/nuscenes_demo.tar -P ./data
-
-tar -xf ./data/nuscenes_demo.tar -C ./data/
-```
-
 #### 2.2.1 命令行方式体验
 
-一行命令即可快速体验3D多模态融合检测产线效果，并将 `--input` 替换为本地pkl文件路径，进行预测。
+一行命令即可快速体验3D多模态融合检测产线效果，使用 [测试文件](https://paddle-model-ecology.bj.bcebos.com/paddlex/det_3d/demo_det_3d/nuscenes_demo_infer.tar)，并将 `--input` 替换为本地路径，进行预测
 
 ```bash
-paddlex --pipeline 3d_bev_detection --input ./data/nuscenes_demo/nuscenes_infos_val.pkl --device gpu:0
+paddlex --pipeline 3d_bev_detection \
+        --input nuscenes_demo_infer.tar \
+        --device gpu:0
 ```
 
 参数说明：
 
 ```
 --pipeline：产线名称，此处为3D多模态融合检测产线
---input：待处理的pkl文件的本地路径
+--input：输入的包含点云图像文件的.tar压缩文件的本地路径。3D多模态融合检测为为多输入模型，输入依赖点云、图像以及转换矩阵等其他信息。tar解压文件包含samples路径，sweeps路径和nuscnes_infos_val.pkl文件，其中samples包含当前输入的所有图像和点云数据，sweeps包含关联帧点云数据，nuscnes_infos_val.pkl文件包含所有点云和图像在samples和sweeps下的相对路径以及转换矩阵等相关信息。
 --device 使用的GPU序号（例如gpu:0表示使用第0块GPU，gpu:1,2表示使用第1、2块GPU），也可选择使用CPU（--device cpu）
 ```
 
@@ -76,7 +70,7 @@ paddlex --pipeline 3d_bev_detection --input ./data/nuscenes_demo/nuscenes_infos_
 from paddlex import create_pipeline
 
 pipeline = create_pipeline(pipeline="3d_bev_detection")
-output = pipeline.predict("./data/nuscenes_demo/nuscenes_infos_val.pkl")
+output = pipeline.predict("nuscenes_demo_infer.tar")
 
 for res in output:
     res.print()  ## 打印预测的结构化输出
@@ -130,11 +124,11 @@ for res in output:
 <tbody>
 <tr>
 <td>str</td>
-<td><b>pkl文件路径</b>，例如：<code>/root/data/anno_file.pkl</code></td>
+<td><b>tar文件路径</b>，例如：<code>/root/data/nuscenes_demo_infer.tar</code></td>
 </tr>
 <tr>
 <td>list</td>
-<td><b>列表</b>，列表元素需为上述类型数据，如<code>["/root/data/anno_file1.pkl", "/root/data/anno_file2.pkl"]</td>
+<td><b>列表</b>，列表元素需为上述类型数据，如<code>["/root/data/nuscenes_demo_infer1.tar", "/root/data/nuscenes_demo_infer2.tar"]</td>
 </tr>
 </tbody>
 </table>
@@ -180,7 +174,7 @@ from paddlex import create_pipeline
 
 pipeline = create_pipeline(pipeline="./my_path/3d_bev_detection.yaml")
 
-output = pipeline.predict("./data/nuscenes_demo/nuscenes_infos_val.pkl")
+output = pipeline.predict("nuscenes_demo_infer.tar")
 
 for res in output:
     res.print()  ## 打印预测的结构化输出
