@@ -335,4 +335,5 @@ PIPELINE_ARGUMENTS = {
             "help": "Sets the prompt for open vocabulary segmentation.",
         },
     ],
+    "3d_bev_detection": None,
 }
