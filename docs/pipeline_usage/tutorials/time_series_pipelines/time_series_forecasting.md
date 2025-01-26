@@ -107,7 +107,7 @@ paddlex --pipeline ts_forecast --input ts_fc.csv --device gpu:0 --save_path ./ou
 
 <details><summary> 👉点击展开</summary>
 
-```
+```bash
 {'input_path': 'ts_fc.csv', 'forecast':                            OT
 date
 2018-06-26 20:00:00  9.586131
@@ -167,10 +167,16 @@ for res in output:
 <td><code>None</code></td>
 </tr>
 <tr>
+<td><code>config</code></td>
+<td>产线具体的配置信息（如果和<code>pipeline</code>同时设置，优先级高于<code>pipeline</code>，且要求产线名和<code>pipeline</code>一致）。</td>
+<td><code>dict[str, Any]</code></td>
+<td><code>None</code></td>
+</tr>
+<tr>
 <td><code>device</code></td>
 <td>产线推理设备。支持指定GPU具体卡号，如“gpu:0”，其他硬件具体卡号，如“npu:0”，CPU如“cpu”。</td>
 <td><code>str</code></td>
-<td><code>gpu:0</code></td>
+<td><code>None</code></td>
 </tr>
 <tr>
 <td><code>use_hpip</code></td>

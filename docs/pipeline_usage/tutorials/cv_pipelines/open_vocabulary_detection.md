@@ -71,7 +71,7 @@ paddlex --pipeline open_vocabulary_detection \
 
 ```python
 from paddlex import create_pipeline
-pipeline = create_pipeline(pipeline_name="open_vocabulary_detection")
+pipeline = create_pipeline(pipeline="open_vocabulary_detection")
 output = pipeline.predict(input="open_vocabulary_detection.jpg", prompt="bus . walking man . rearview mirror .")
 for res in output:
     res.print()
@@ -94,15 +94,15 @@ for res in output:
 </thead>
 <tbody>
 <tr>
-<td><code>pipeline_name</code></td>
-<td>产线名称, 必须为 PaddleX 所支持的产线。</td>
+<td><code>pipeline</code></td>
+<td>产线名称或是产线配置文件路径。如为产线名称，则必须为 PaddleX 所支持的产线。</td>
 <td><code>str</code></td>
 <td><code>None</code></td>
 </tr>
 <tr>
 <td><code>config</code></td>
-<td>产线配置文件路径</td>
-<td><code>str</code></td>
+<td>产线具体的配置信息（如果和<code>pipeline</code>同时设置，优先级高于<code>pipeline</code>，且要求产线名和<code>pipeline</code>一致）。</td>
+<td><code>dict[str, Any]</code></td>
 <td><code>None</code></td>
 </tr>
 <tr>

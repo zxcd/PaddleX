@@ -209,7 +209,7 @@ The visualization results are saved under `save_path`, and the visualization res
 
 ```python
 from paddlex import create_pipeline
-pipeline = create_pipeline(pipeline_name="instance_segmentation")
+pipeline = create_pipeline(pipeline="instance_segmentation")
 output = pipeline.predict(input="general_instance_segmentation_004.png", threshold=0.5)
 for res in output:
     res.print()
@@ -232,15 +232,16 @@ In the above Python script, the following steps are performed:
 </thead>
 <tbody>
 <tr>
-<td><code>pipeline_name</code></td>
-<td>Pipeline name, must be a pipeline supported by PaddleX.</td>
+<td><code>pipeline</code></td>
+<td>Pipeline name or path to pipeline config file, if it's set as a pipeline name, it must be a pipeline supported by PaddleX.</td>
 <td><code>str</code></td>
 <td><code>None</code></td>
 </tr>
 <tr>
 <td><code>config</code></td>
-<td>Path to the pipeline configuration file</td>
-<td><code>str</code></td>
+<td>Specific configuration information for the pipeline (if set simultaneously with the <code>pipeline</code>, it takes precedence over the <code>pipeline</code>, and the pipeline name must match the <code>pipeline</code>).
+</td>
+<td><code>dict[str, Any]</code></td>
 <td><code>None</code></td>
 </tr>
 <tr>

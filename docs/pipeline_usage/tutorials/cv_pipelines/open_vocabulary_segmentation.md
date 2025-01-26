@@ -73,7 +73,7 @@ paddlex --pipeline open_vocabulary_segmentation \
 
 ```python
 from paddlex import create_pipeline
-pipeline = create_pipeline(pipeline_name="open_vocabulary_segmentation")
+pipeline = create_pipeline(pipeline="open_vocabulary_segmentation")
 output = pipeline.predict(input="open_vocabulary_segmentation.jpg", prompt_type="box", prompt=[[112.9,118.4,513.8,382.1],[4.6,263.6,92.2,336.6],[592.4,260.9,607.2,294.2]])
 for res in output:
     res.print()
@@ -96,15 +96,15 @@ for res in output:
 </thead>
 <tbody>
 <tr>
-<td><code>pipeline_name</code></td>
-<td>产线名称, 必须为 PaddleX 所支持的产线。</td>
+<td><code>pipeline</code></td>
+<td>产线名称或是产线配置文件路径。如为产线名称，则必须为 PaddleX 所支持的产线。</td>
 <td><code>str</code></td>
 <td><code>None</code></td>
 </tr>
 <tr>
 <td><code>config</code></td>
-<td>产线配置文件路径</td>
-<td><code>str</code></td>
+<td>产线具体的配置信息（如果和<code>pipeline</code>同时设置，优先级高于<code>pipeline</code>，且要求产线名和<code>pipeline</code>一致）。</td>
+<td><code>dict[str, Any]</code></td>
 <td><code>None</code></td>
 </tr>
 <tr>
