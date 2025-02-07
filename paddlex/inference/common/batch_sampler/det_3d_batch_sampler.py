@@ -108,8 +108,7 @@ class Det3DBatchSampler(BaseBatchSampler):
                     f"Not supported input data type! Only `str` is supported! So has been ignored: {input}."
                 )
             # extract tar file to tempdir
-            self.extract_tar(ann_path, self.temp_dir)
-            dataset_name = os.path.basename(ann_path).split(".")[0]
+            dataset_name = self.extract_tar(ann_path, self.temp_dir)
             data_root_dir = os.path.join(self.temp_dir, dataset_name)
             ann_pkl_path = os.path.join(data_root_dir, "nuscenes_infos_val.pkl")
             self.data_infos = self.load_annotations(ann_pkl_path, data_root_dir)
@@ -132,9 +131,17 @@ class Det3DBatchSampler(BaseBatchSampler):
 
     def extract_tar(self, tar_path, extract_path="."):
         try:
+            memdirs = set()
             with tarfile.open(tar_path, "r") as tar:
                 for member in tar.getmembers():
+                    memdir = member.name.split("/")[0]
+                    memdirs.add(memdir)
                     tar.extract(member, path=extract_path)
-                print(f"file extract to {extract_path}")
+                logging.info(f"file extract to {extract_path}")
+            assert (
+                len(memdirs) == 1
+            ), "Only one base directory is allowed for 3d bev dataset!"
+            return list(memdirs)[0]
         except Exception as e:
-            print(f"error occurred while extracting tar file: {e}")
+            logging.error(f"error occurred while extracting tar file")
+            raise e
