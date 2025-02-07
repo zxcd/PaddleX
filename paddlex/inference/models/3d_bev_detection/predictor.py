@@ -26,7 +26,6 @@ if lazy_paddle.is_compiled_with_cuda() and not lazy_paddle.is_compiled_with_rocm
 else:
     logging.error("3D BEVFusion custom ops only support GPU platform!")
 from ....utils.func_register import FuncRegister
-from ....utils.cache import TEMP_DIR
 
 module_3d_bev_detection = import_module(".3d_bev_detection", "paddlex.modules")
 module_3d_model_list = getattr(module_3d_bev_detection, "model_list")
@@ -64,7 +63,7 @@ class BEVDet3DPredictor(BasicPredictor):
             *args: Arbitrary positional arguments passed to the superclass.
             **kwargs: Arbitrary keyword arguments passed to the superclass.
         """
-        self.temp_dir = tempfile.mkdtemp(dir=TEMP_DIR)
+        self.temp_dir = tempfile.mkdtemp()
         logging.info(
             f"infer data will be stored in temporary directory {self.temp_dir}"
         )
