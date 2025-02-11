@@ -696,7 +696,7 @@ data_root             # 数据集根目录，目录名称可以改变
 <td><code>indexKey</code></td>
 <td><code>string</code></td>
 <td>索引对应的键。由<code>buildIndex</code>操作提供。</td>
-<td>否</td>
+<td>是</td>
 </tr>
 </tbody>
 </table>
@@ -769,7 +769,7 @@ data_root             # 数据集根目录，目录名称可以改变
 <td><code>indexKey</code></td>
 <td><code>string</code></td>
 <td>索引对应的键。由<code>buildIndex</code>操作提供。</td>
-<td>否</td>
+<td>是</td>
 </tr>
 </tbody>
 </table>
@@ -822,6 +822,30 @@ data_root             # 数据集根目录，目录名称可以改变
 <td>索引对应的键。由<code>buildIndex</code>操作提供。</td>
 <td>否</td>
 </tr>
+<tr>
+<td><code>detThreshold</code></td>
+<td><code>number</code> | <code>null</code></td>
+<td>参见产线 <code>predict</code> 方法中的 <code>det_threshold</code> 参数说明。</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>recThreshold</code></td>
+<td><code>number</code> | <code>null</code></td>
+<td>参见产线 <code>predict</code> 方法中的 <code>rec_threshold</code> 参数说明。</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>hammingRadius</code></td>
+<td><code>number</code> | <code>null</code></td>
+<td>参见产线 <code>predict</code> 方法中的 <code>hamming_radius</code> 参数说明。</td>
+<td>否</td>
+</tr>
+<tr>
+<td><code>topk</code></td>
+<td><code>integer</code> | <code>null</code></td>
+<td>参见产线 <code>predict</code> 方法中的 <code>topk</code> 参数说明。</td>
+<td>否</td>
+</tr>
 </tbody>
 </table>
 <ul>
@@ -843,7 +867,7 @@ data_root             # 数据集根目录，目录名称可以改变
 </tr>
 <tr>
 <td><code>image</code></td>
-<td><code>string</code></td>
+<td><code>string</code> | <code>null</code></td>
 <td>识别结果图。图像为JPEG格式，使用Base64编码。</td>
 </tr>
 </tbody>

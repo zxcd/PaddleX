@@ -572,6 +572,12 @@ for res in output:
 <td>服务器可访问的图像文件的URL或图像文件内容的Base64编码结果。</td>
 <td>是</td>
 </tr>
+<tr>
+<td><code>targetSize</code></td>
+<td><code>integer</code> | <code>array</code> | <code>null</code></td>
+<td>参见产线 <code>predict</code> 方法中的 <code>target_size</code> 参数说明。</td>
+<td>否</td>
+</tr>
 </tbody>
 </table>
 <ul>
@@ -598,7 +604,7 @@ for res in output:
 </tr>
 <tr>
 <td><code>image</code></td>
-<td><code>string</code></td>
+<td><code>string</code> | <code>null</code></td>
 <td>语义分割结果图。图像为JPEG格式，使用Base64编码。</td>
 </tr>
 </tbody>
